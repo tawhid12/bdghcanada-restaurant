@@ -1,0 +1,108 @@
+@extends('backend.layout.admin_master')
+@section('title', 'Superadmin | Dashboard')
+@section('content')
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-header row">
+      <div class="content-header-left col-md-9 col-12 mb-2">
+        <div class="row breadcrumbs-top">
+          <div class="col-12">
+            <h2 class="content-header-title float-start mb-0">Dashboard</h2>
+            <div class="breadcrumb-wrapper">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a href="{{route(currentUser().'Dashboard')}}">{{ encryptor('decrypt', Session::get('username')) }}</a></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<!--begin::Container-->
+<div class="content-body">
+	
+			<!--begin::Dashboard-->
+			<!--begin::Notice-->
+            @if( Session::has('response') )
+            <div class="alert alert-custom alert-{{Session::get('response')['class']}} alert-shadow gutter-b" role="alert">
+            	<div class="alert-icon">
+            		<i class="flaticon2-bell-4"></i>
+            	</div>
+            	<div class="alert-text">
+            		{{Session::get('response')['message']}}
+            		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            			<span aria-hidden="true">&times;</span>
+            		</button>
+            	</div>
+            		
+            </div>
+            @endif
+			<div class="row match-height">
+				
+                    <!-- Medal Card -->
+                    <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-congratulation-medal">
+                                <div class="card-body">
+                                    <h3>Restaurant</h3>
+                                    <p class="card-text font-small-3">All the Restaurant you can easily findout from here..
+                                    </p>
+                                    <h5 class="mb-75 mt-2 pt-50">
+                                        Total-Restaurant : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                    </h5>
+
+                                    <div class=" justify-content-between bottom-button">
+                                        <a href="{{--route(currentUser().'.allProduct')--}}" class="btn btn-gradient-primary">View</a>
+                                        <a href="{{--route(currentUser().'.addNewProductForm')--}}" class="btn btn-gradient-success">Create</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--/ Medal Card -->
+					 <!-- Medal Card -->
+					 <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-congratulation-medal">
+                                <div class="card-body">
+                                    <h3>Customer</h3>
+                                    <p class="card-text font-small-3">All the Customer you can easily findout from here..
+                                    </p>
+                                    <h5 class="mb-75 mt-2 pt-50">
+                                        Total-Customer : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                    </h5>
+
+                                    <div class=" justify-content-between bottom-button">
+                                        <a href="{{--route(currentUser().'.allProduct')--}}" class="btn btn-gradient-primary">View</a>
+                                        <a href="{{--route(currentUser().'.addNewProductForm')--}}" class="btn btn-gradient-success">Create</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--/ Medal Card -->
+										 <!-- Medal Card -->
+										 <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-congratulation-medal">
+                                <div class="card-body">
+                                    <h3>Orders</h3>
+                                    <p class="card-text font-small-3">All the Orders you can easily findout from here..
+                                    </p>
+                                    <h5 class="mb-75 mt-2 pt-50">
+                                        Total-Orders : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                    </h5>
+
+                                    <div class=" justify-content-between bottom-button">
+                                        <a href="{{--route(currentUser().'.allProduct')--}}" class="btn btn-gradient-primary">View</a>
+                                        <a href="{{--route(currentUser().'.addNewProductForm')--}}" class="btn btn-gradient-success">Create</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!--/ Medal Card -->
+			</div>
+
+</div>
+<!--end::Container-->
+@endsection
+
+@push('scripts')
+
+	<script src="{{asset('/')}}assets/js/pages/widgets.js?v=7.0.4"></script>
+
+@endpush

@@ -1,0 +1,16 @@
+user table tak a state and zone id delete korte hobe
+sokol controller a data session
+
+restaurant controller validation remaining both insert and update
+j page tak a logout koruk nah keno oi page a redirect korat try korte hobe
+restaurant delete with gallery food and category delete korte hobe
+mone rakte hobe jokon jeta delte hoobe oitar related sob kichu delete korte hobe
+
+add to cart er somoy defaul tax vat calculate korte hobe
+discount add korar somoy discount type diya add korte hobe pore calculate korar somoy type deka calculate korte hobe
+
+popular restaurant add korte hobe
+
+popular cities mark from admin
+
+cities or other variable sob khane jeno value pawa jai tah korte hobe construct or boot function diya
