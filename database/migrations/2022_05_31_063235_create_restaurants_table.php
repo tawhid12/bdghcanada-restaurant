@@ -30,15 +30,15 @@ class CreateRestaurantsTable extends Migration
             $table->double('admin_commission',8,2)->default(0.00)->nullable();
             $table->double('delivery_fee',8,2)->default(0.00)->nullable();
             $table->double('delivery_range',8,2)->default(0.00)->nullable();
-            $table->tinyInteger('isPromoted')->default(1)->nullable();
+            $table->tinyInteger('isPromoted')->default(0)->nullable();
+            $table->tinyInteger('isPopular')->default(0)->nullable();
             $table->time('opening_time')->nullable();
             $table->time('closing_time')->nullable();
-            $table->string('delivery_time')->nullable();
+            $table->time('delivery_time')->nullable();
             $table->double('default_tax',8,2)->default(0.00)->nullable();
             $table->tinyInteger('closed')->default(0)->nullable();
             $table->tinyInteger('active')->default(0)->nullable();
             $table->tinyInteger('available_for_delivery')->default(1)->nullable();
-            $table->tinyInteger('popular')->default(1)->nullable();
             $table->unsignedTinyInteger('state_id');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->unsignedBigInteger('city_id');

@@ -18,9 +18,6 @@ class CartController extends Controller
         $pids=array_keys((array) session('cart'));
        // $gs=GeneralSetting::first(); here need to pass deliver charge and other information reference sharif bhai
         $products=Food::whereIn('id',$pids);
-        /* get similar product */
-        //$similarpro=$products->pluck('category_id','category_id');
-        //$similarpro=Product::whereNotIn('id',$pids)->whereIn('category_id',$similarpro)->limit(12)->get();
         /* get cart product */
         $products= $products->get();
         return view('frontend.cart',compact('products','cart','similarpro','gs'));
@@ -49,54 +46,54 @@ class CartController extends Controller
     public function addToCart(Request $r)
     {
         $id=$r->id;
+        
         $product = Food::findOrFail($id);
         $msg="<b>Congratulation!</b> Product added to cart.";
         $type="";
         $cart = session()->get('cart', []);
-        
-        /*if(isset($cart[$id])) {
-            if($product->max_qty >= ($cart[$id]['quantity'] + $r->quantity)){
+
+     
+      
+        $restaurant_id = array_keys(array_combine(array_keys($cart), array_column($cart, 'restaurant_id')),$r->restaurant_id);
+        if(!$restaurant_id && !empty($cart)){
+            unset($cart);
+        }
+                        
+
+
+
+
+            if(isset($cart[$id])) {
                 $cart[$id]['quantity']+=$r->quantity;
             }else{
-                $msg="<b>Sorry</b> You cannot buy more than ".$product->max_qty." in single order";
-                $type="danger";
-            }
-        } else {*/
-            if($r->quantity!=0){
-                $price=$product->price;
-                $discount_amount=0;
-
-                if($product->discount_price){
-                    $discount_amount=($product->price * ($product->discount_price/100));
-                    $price=($product->price - ($product->price * ($product->discount_price/100)));
-                }
+                    if($r->quantity!=0){
+                        $price=$product->price;
+                        $discount_amount=0;
+                        if($product->discount_type==1){
+                            $discount_amount= $product->discount_price;
+                            $price  =  $product->price - $discount_amount;
+                        }else{
+                            $discount_amount=($product->price * ($product->discount_price/100));
+                            $price=($product->price - ($product->price * ($product->discount_price/100)));
+                        }
+                        
+                    $cart[$id] = [
+                        "restaurant_id" => $product->restaurant_id,
+                        "name" => $product->name,
+                        "quantity" => $r->quantity,
+                        "price" => $product->price,
+                        "dis_price" => $price,
+                        "discount" => $discount_amount,
+                        "image" => $product->feature_image
+                    ];
                 
-                $vat_amount=0;
-
-                /*if((float) $product->vat_status > 0){
-                    $vat_amount=($price * ((float) $product->vat_status/100));
-                } */
-
-                $cart[$id] = [
-                    "name" => $product->name,
-                    "quantity" => $r->quantity,
-                    "price" => $product->price,
-                    "dis_price" => $price,
-                    "discount" => $product->discount_price,
-                    "discount_amount" => $discount_amount,
-                    /*"vat" => $product->vat_status,
-                    "vat_amount" => $vat_amount,
-                    "image" => $product->feature_image*/
-                ];
-            }else{
-                $msg="<b>Sorry</b> You cannot buy more than ".$product->max_qty." in single order";
-                $type="danger";
+                    
+                    
+                }
             }
-        //}
-          
+     
         session()->put('cart', $cart);
-
-        return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type), 200);
+        return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$product->restaurant_id),'data' => $restaurant_id), 200);
     }
 
     /**

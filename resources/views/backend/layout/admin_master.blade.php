@@ -143,16 +143,10 @@
                 <span class="menu-title text-truncate" data-i18n="Customer">All User</span>
               </a>
             </li>
-            <li class="nav-item {{menuActive(currentUser().'.allUser')}}">
-              <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allUser')}} @endif">
+            <li class="nav-item {{menuActive(currentUser().'.allRestaurant')}}">
+              <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allRestaurant')}} @endif">
                 <i data-feather="columns"></i>
-                <span class="menu-title text-truncate" data-i18n="Customer">All Featured Item</span>
-              </a>
-            </li>
-            <li class="nav-item {{menuActive(currentUser().'.allUser')}}">
-              <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allUser')}} @endif">
-                <i data-feather="code"></i>
-                <span class="menu-title text-truncate" data-i18n="Customer">All Popular Restaurant</span>
+                <span class="menu-title text-truncate" data-i18n="Customer">All Restaurant</span>
               </a>
             </li>
           @endif

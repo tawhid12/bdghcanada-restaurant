@@ -56,6 +56,8 @@ class RestaurantController extends Controller
             $resturant->state_id = $request->state_id;
             $resturant->city_id = $request->city_id;
             $resturant->name = $request->name;
+            if($request->has('logo')) $resturant->logo = $this->uploadImage($request->file('logo'), 'logo');
+            if($request->has('feature_image')) $resturant->feature_image = $this->uploadImage($request->file('feature_image'), 'feature_image');
             $resturant->description = $request->description;
             $resturant->address = $request->address;
             $resturant->latitude = $request->latitude;
@@ -68,6 +70,8 @@ class RestaurantController extends Controller
             $resturant->delivery_range = $request->delivery_range;
             $resturant->closed = $request->closed?$request->closed:0;
             $resturant->active = $request->active?$request->active:0;
+            $resturant->isPromoted = $request->isPromoted?$request->isPromoted:0;
+            $resturant->isPopular = $request->isPopular?$request->isPopular:0;
             $resturant->available_for_delivery = $request->available_for_delivery?$request->available_for_delivery:0;
             $resturant->save();
 
@@ -93,9 +97,10 @@ class RestaurantController extends Controller
   
             }
 
-            if(!!$resturant->save()){
-                return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(true, null, 'Restaurant created'));
-            }
+            if(currentUser() == 'superadmin')
+                return redirect(route(currentUser().'.allRestaurant'))->with($this->responseMessage(true, null, 'Restaurant Updated'));
+                else
+                return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(true, null, 'Restaurant Updated'));
 
         } catch (Exception $e) {
             return redirect()->back()->with($this->responseMessage(false, 'error', 'Please try again!'));
@@ -136,12 +141,15 @@ class RestaurantController extends Controller
      */
     public function update(UpdateRestaurantRequest $request, $id)
     {
+        //dd($request);die;
         try {
             $resturant = Restaurant::find($id);
-            $resturant->userId =  encryptor('decrypt', request()->session()->get('user'));
+            $resturant->user_id =  encryptor('decrypt', request()->session()->get('user'));
             $resturant->state_id = $request->state_id;
             $resturant->city_id = $request->city_id;
             $resturant->name = $request->name;
+            if($request->has('logo')) $resturant->logo = $this->uploadImage($request->file('logo'), 'logo');
+            if($request->has('feature_image')) $resturant->feature_image = $this->uploadImage($request->file('feature_image'), 'feature_image');
             $resturant->description = $request->description;
             $resturant->address = $request->address;
             $resturant->latitude = $request->latitude;
@@ -154,7 +162,13 @@ class RestaurantController extends Controller
             $resturant->closed = $request->closed;
             $resturant->active = $request->active;
             $resturant->available_for_delivery = $request->available_for_delivery;
+            $resturant->isPromoted = $request->isPromoted?$request->isPromoted:0;
+            $resturant->isPopular = $request->isPopular?$request->isPopular:0;
+            $resturant->save();
             if(!!$resturant->save()){
+                if(currentUser() == 'superadmin')
+                return redirect(route(currentUser().'.allRestaurant'))->with($this->responseMessage(true, null, 'Restaurant Updated'));
+                else
                 return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(true, null, 'Restaurant Updated'));
             }
 
@@ -187,4 +201,10 @@ class RestaurantController extends Controller
         $cities = City::where('stateId',$id)->get();
         return response()->json($cities);
     }
+
+    public function allRestaurant(){
+        $restaurant = Restaurant::orderBy('id', 'DESC')->paginate(25);
+        return view('backend.restaurant.all',compact('restaurant'));
+    }
+
 }

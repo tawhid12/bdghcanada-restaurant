@@ -19,12 +19,14 @@
 
     <link href="{{asset('')}}assets/vendor/icofont/icofont.min.css" rel="stylesheet">
 
-    <link href="{{asset('')}}assets/vendor/select2/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
     <link href="{{asset('')}}assets/css/osahan.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('')}}assets/vendor/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="{{asset('')}}assets/vendor/owl-carousel/owl.theme.css">
+    @stack('styles')
 </head>
 
 <body>
@@ -77,7 +79,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{asset('')}}assets/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-    <script src="{{asset('')}}assets/vendor/select2/js/select2.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{asset('')}}assets/vendor/owl-carousel/owl.carousel.js" type="text/javascript"></script>
 

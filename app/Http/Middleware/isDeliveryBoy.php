@@ -3,13 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\User;
-use Session;
-use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
+use Session;
 
-class isCustomer
+class isDeliveryBoy
 {
     use ResponseTrait;
     /**
@@ -28,7 +28,7 @@ class isCustomer
             $role = Role::find(encryptor('decrypt', Session::get('roleId')));
             if(!$user || !$role){
                 return redirect()->route('logOut');
-            }else if ($role->identity != 'customer') {
+            }else if ($role->identity != 'delivery') {
                 return redirect(route($role->identity.'Dashboard'))->with($this->responseMessage(false, null, 'Access Deined'));
             }else{
                 return $next($request);

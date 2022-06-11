@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCartsTable extends Migration
+class CreateFoodDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('food_days', function (Blueprint $table) {
             $table->integer('food_id');
-            $table->integer('user_id');
-            $table->integer('quantity');
-            $table->timestamps();
+            $table->integer('week_day');
         });
     }
 
@@ -29,6 +26,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('food_days');
     }
 }

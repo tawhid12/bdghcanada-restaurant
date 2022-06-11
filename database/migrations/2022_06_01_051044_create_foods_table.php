@@ -22,6 +22,7 @@ class CreateFoodsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('name',255);
             $table->double('price',8,2);
+            $table->tinyInteger('discount_type')->default(1)->comment('1=>Fixed, 2=> Percentage')->nullable();
             $table->double('discount_price',8,2)->default(0.00)->nullable();
             $table->text('description')->default('')->nullable();
             $table->double('capacity',9,2)->default(0.00)->nullable();

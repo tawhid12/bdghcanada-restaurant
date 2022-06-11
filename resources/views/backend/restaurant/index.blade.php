@@ -12,7 +12,7 @@
 								<li class="breadcrumb-item"><a
 										href="{{route(currentUser().'Dashboard')}}">{{ encryptor('decrypt', Session::get('username')) }}</a>
 								</li>
-								<li class="breadcrumb-item"><a href="#">Food</a></li>
+								<li class="breadcrumb-item"><a href="#">Restaurant</a></li>
 								<li class="breadcrumb-item active">List</li>
 							</ol>
 						</div>

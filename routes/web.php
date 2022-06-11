@@ -15,6 +15,8 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\RestraurantListingController;
 use App\Http\Controllers\RestaurantDetailsController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DeliveryAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +41,11 @@ Route::group(['middleware' => 'unknownUser'], function(){
     //Signup, Registration| Restaurant
     Route::get('/restaurant-registration', [AuthenticationController::class,'restaurantsignUpForm'])->name('restaurant_registration');
     Route::post('/restaurant-registration',[AuthenticationController::class,'signUpregistrationStore'])->name('signUpregistrationStore');
+
+    //Signup, Registration| Driver
+    Route::get('/delivery-boy-registration', [AuthenticationController::class,'delivery_boy_signUpForm'])->name('delivery_boy_registration');
+    Route::post('/delivery-boy-registration',[AuthenticationController::class,'delivery_boy_registrationStore'])->name('signUp_delivery_boy_Store');
+
     // Forgot Password
     Route::get('/forgot-password', [AuthenticationController::class,'forgotForm'])->name('forgotPasswordForm');
     Route::post('/forgot-password', [AuthenticationController::class,'forgotPassword'])->name('forgotPassword');
@@ -54,7 +61,14 @@ Route::get('/logout', [AuthenticationController::class,'signOut'])->name('logOut
 Route::group(['middleware' => 'isSuperAdmin'], function(){
     Route::prefix('superadmin')->group(function () {
         Route::get('/dashboard', [DashboardController::class,'index'])->name('superadminDashboard');
+        /*====Restaurant==*/
+        //Route::resource('/info',RestaurantController::class,['as' => 'superadmin']);
+        /*====Restaurant Gallery==*/
+        //Route::resource('/gallery',GalleryController::class,['as' => 'superadmin']);
+        Route::get('/all/restaurant',[RestaurantController::class,'allRestaurant'])->name('superadmin.allRestaurant');
     });
+   
+
     Route::prefix('user')->group(function () {
         Route::get('/all', [UserController::class,'index'])->name('superadmin.allUser');
         Route::get('/add', [UserController::class,'addForm'])->name('superadmin.addNewUserForm');
@@ -62,7 +76,7 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         Route::get('/edit/{name}/{id}', [UserController::class,'editForm'])->name('superadmin.editUser');
         Route::post('/update', [UserController::class,'update'])->name('superadmin.updateUser');
         Route::get('/delete/{name}/{id}', [UserController::class,'delete'])->name('superadmin.deleteUser');
-        
+    });
         Route::get('/profile', [UserController::class,'userProfile'])->name('superadmin.userProfile');
         Route::post('/profile', [UserController::class,'storeProfile'])->name('superadmin.storeProfile');
         Route::post('/changePass', [UserController::class,'changePass'])->name('superadmin.changePass');
@@ -87,7 +101,7 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         Route::get('/delete/{name}/{id}', [CityController::class,'delete'])->name('superadmin.deleteCity');
     });
 
-    });
+    
 });
 
 
@@ -140,12 +154,22 @@ Route::group(['middleware' => 'isRestaurant'], function(){
 });
 
 
-// owner
+// Customer
 Route::group(['middleware' => 'isCustomer'], function(){
     Route::prefix('customer')->group(function () {
         Route::get('/', [DashboardController::class,'customer'])->name('customerDashboard');
         Route::get('/profile', [UserController::class,'userProfile'])->name('customer.userProfile');
         Route::post('/profile', [UserController::class,'storeProfile'])->name('customer.storeProfile');
+        
+       /*Checkout Page Redirect*/
+        Route::get('/cart', [CheckoutController::class,'index'])->name('cart');
+        /*Final Checkout*/
+        Route::post('/final_checkout', [CheckoutController::class,'finalCheckout'])->name('finalCheckout');
+        /*Final Checkout*/
+        Route::get('/thank-you/{id}', [CheckoutController::class,'thank_you'])->name('thank_you');
+
+        /*Delivery Address */
+        Route::post('/delivery-address', [DeliveryAddressController::class,'store'])->name('customer.deliveryAddress.store');
     });
     Route::prefix('user')->group(function () {       
         Route::post('/upload-image',  [UserController::class,'upload']);
@@ -153,11 +177,28 @@ Route::group(['middleware' => 'isCustomer'], function(){
         Route::post('/changePer',  [UserController::class,'changePer'])->name('customer.changePer');
         Route::post('/changeAcc',  [UserController::class,'changeAcc'])->name('customer.changeAcc');
     });
+
+    
 });
 Route::get('/', [FrontController::class,'index'])->name('home');
 Route::get('/restaurant-listing/near', [RestraurantListingController::class,'nearestRestaurant'])->name('nearestRestaurant');
 Route::get('/restaurant-listing/{id}', [RestraurantListingController::class,'index'])->name('restaurantlisting');
 Route::get('/restaurant-details/{id}', [RestaurantDetailsController::class,'index'])->name('restaurantDetl');
+
+// Customer
+Route::group(['middleware' => 'isDeliveryBoy'], function(){
+    Route::prefix('delivery-boy')->group(function () {
+        Route::get('/', [DashboardController::class,'deliveryBoy'])->name('deliveryDashboard');
+        Route::get('/profile', [UserController::class,'userProfile'])->name('delivery.userProfile');
+        Route::post('/profile', [UserController::class,'storeProfile'])->name('delivery.storeProfile');
+    });
+    Route::prefix('user')->group(function () {       
+        Route::post('/upload-image',  [UserController::class,'upload']);
+        Route::post('/changePass',  [UserController::class,'changePass'])->name('delivery.changePass');
+        Route::post('/changePer',  [UserController::class,'changePer'])->name('delivery.changePer');
+        Route::post('/changeAcc',  [UserController::class,'changeAcc'])->name('delivery.changeAcc');
+    });
+});
 /*===============Front End============== */
 /*=============== cart ===================*/
     Route::get('/cart', [CartController::class, 'cartView'])->name('front.cart');

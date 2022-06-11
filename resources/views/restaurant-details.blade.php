@@ -4,14 +4,14 @@
     @include('blade_components.nav-bar')
 <section class="restaurant-detailed-banner">
     <div class="text-center">
-        <img class="img-fluid cover" src="{{asset('/')}}storage/images/gallery/{{$restaurant->gallery->gallery_img}}">
+        <img class="img-fluid cover" src="{{asset('/')}}storage/images/feature_image/{{$restaurant->feature_image}}">
     </div>
     <div class="restaurant-detailed-header">
         <div class="container">
             <div class="row d-flex align-items-end">
                 <div class="col-md-8">
                     <div class="restaurant-detailed-header-left">
-                        <img class="{{asset('')}}assets/img-fluid mr-3 float-left" alt="osahan" src="{{asset('')}}assets/img/1.jpg">
+                        <img class="{{asset('')}}assets/img-fluid mr-3 float-left" alt="osahan" src="{{asset('/')}}storage/images/logo/{{$restaurant->logo}}">
                         <h2 class="text-white">{{$restaurant->name}}</h2>
                         <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{$restaurant->address}} @if($restaurant->closed == 1)<span class="badge badge-danger">CLOSE</span>@else <span class="badge badge-success">OPEN</spa>@endif
                         </p>
@@ -222,7 +222,7 @@
                                     @forelse($cat->products as  $food)
                                     @if($loop->index < 1)
                                     <div class="gold-members p-3 border-bottom">
-                                        <a class="btn btn-outline-secondary btn-sm  float-right" href="javascript:void(0)" onclick="add_to_cart({{$food->id}})">Add to Cart</a>
+                                        <!-- <a class="btn btn-outline-secondary btn-sm  float-right" href="javascript:void(0)" onclick="add_to_cart({{$food->id}})">Add to Cart</a> -->
                                         <span class="count-number float-right">
                                             <button class="btn btn-outline-secondary  btn-sm left dec_{{$food->id}}" onclick="qty_decrement({{$food->id}})"> <i class="icofont-minus"></i> </button>
                                             <input class="count-number-input qty_{{$food->id}}" type="text" value="1" readonly="">
@@ -239,7 +239,7 @@
                                     @endif
                                     @if($loop->index >= 1)
                                     <div class="gold-members p-3 border-bottom">
-                                        <a class="btn btn-outline-secondary btn-sm  float-right" href="javascript:void(0)" onclick="add_to_cart({{$food->id}})">Add to Cart</a>
+                                        <!-- <a class="btn btn-outline-secondary btn-sm  float-right" href="javascript:void(0)" onclick="add_to_cart({{$food->id}})">Add to Cart</a> -->
                                         <span class="count-number float-right">
                                             <button class="btn btn-outline-secondary  btn-sm left dec_{{$food->id}}" onclick="qty_decrement({{$food->id}})"> <i class="icofont-minus"></i> </button>
                                             <input class="count-number-input qty_{{$food->id}}" type="text" value="1" readonly="">
@@ -264,82 +264,83 @@
                                     @endif
                                     @empty
                                     @endforelse
+                                    <!-- <div class="row">
+                                        <h5 class="mb-4 mt-3 col-md-12">Soups <small class="h6 text-black-50">8 ITEMS</small></h5>
+                                        <div class="col-md-12">
+                                            <div class="bg-white rounded border shadow-sm">
+                                                <div class="gold-members p-3 border-bottom">
+                                                    <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Tomato Dhania Shorba</h6>
+                                                            <p class="text-gray mb-0">$314 - 12" (30 cm)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gold-members p-3 border-bottom">
+                                                    <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Veg Manchow Soup</h6>
+                                                            <p class="text-gray mb-0">$600</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gold-members p-3 border-bottom">
+                                                    <span class="count-number float-right">
+                                                        <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i> </button>
+                                                        <input class="count-number-input" type="text" value="1" readonly="">
+                                                        <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i> </button>
+                                                    </span>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-success food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Lemon Coriander Soup</h6>
+                                                            <p class="text-gray mb-0">$600</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gold-members p-3 border-bottom">
+                                                    <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Tomato Dhania Shorba</h6>
+                                                            <p class="text-gray mb-0">$314 - 12" (30 cm)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gold-members p-3 border-bottom">
+                                                    <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Veg Manchow Soup</h6>
+                                                            <p class="text-gray mb-0">$600</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="gold-members p-3">
+                                                    <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-success food-item"></i></div>
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">Lemon Coriander Soup</h6>
+                                                            <p class="text-gray mb-0">$600</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
                                 </div>
                             </div>
                             @endif    
                             @empty
                             @endforelse 
-                            <!-- <div class="row">
-                                <h5 class="mb-4 mt-3 col-md-12">Soups <small class="h6 text-black-50">8 ITEMS</small></h5>
-                                <div class="col-md-12">
-                                    <div class="bg-white rounded border shadow-sm">
-                                        <div class="gold-members p-3 border-bottom">
-                                            <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Tomato Dhania Shorba</h6>
-                                                    <p class="text-gray mb-0">$314 - 12" (30 cm)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gold-members p-3 border-bottom">
-                                            <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Veg Manchow Soup</h6>
-                                                    <p class="text-gray mb-0">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gold-members p-3 border-bottom">
-                                            <span class="count-number float-right">
-                                                <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i> </button>
-                                                <input class="count-number-input" type="text" value="1" readonly="">
-                                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i> </button>
-                                            </span>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-success food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Lemon Coriander Soup</h6>
-                                                    <p class="text-gray mb-0">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gold-members p-3 border-bottom">
-                                            <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Tomato Dhania Shorba</h6>
-                                                    <p class="text-gray mb-0">$314 - 12" (30 cm)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gold-members p-3 border-bottom">
-                                            <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Veg Manchow Soup</h6>
-                                                    <p class="text-gray mb-0">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="gold-members p-3">
-                                            <a class="btn btn-outline-secondary btn-sm  float-right" href="#">ADD</a>
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-success food-item"></i></div>
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Lemon Coriander Soup</h6>
-                                                    <p class="text-gray mb-0">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab">
                             <div id="gallery" class="bg-white rounded shadow-sm p-4 mb-4">
@@ -612,23 +613,41 @@
                 </div>
                 <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
                     <h5 class="mb-1 text-white">Your Order</h5>
-                    <p class="mb-4 text-white">6 ITEMS</p>
+                    <p class="mb-4 text-white">{{ count((array) session()->get('cart')) }} ITEMS</p>
+                    @php
+                        $total=0;
+                        $t_discount=0;
+                        $t_vat=0;
+                        //print_r(session()->get('cart'));
+                    @endphp
+                    @if(count((array) session('cart')))
+                        @foreach($cart as $c)
+                            @php
+                                $total+=$c['price'] * $c['quantity'];
+                                $t_discount+=$c['quantity'] * $c['discount'];
+                            @endphp
+                        @endforeach
+                    @endif
                     <div class="bg-white rounded shadow-sm mb-2">
-                        <div class="gold-members p-2 border-bottom">
-                            <p class="text-gray mb-0 float-right ml-2">$314</p>
-                            <span class="count-number float-right">
-                                <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i> </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i> </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Chicken Tikka Sub</p>
+                        @if(count((array) $products)>0)
+                            @foreach($products as $item)
+                            <div class="gold-members p-2 border-bottom">
+                                <p class="text-gray mb-0 float-right ml-2">{{$cart[$item->id]['dis_price'] * $cart[$item->id]['quantity']}}</p>
+                                <span class="count-number float-right">
+                                    <button class="btn btn-outline-secondary  btn-sm left dec_{{$item->id}}" onclick="qty_decrement({{$item->id}})"> <i class="icofont-minus"></i> </button>
+                                    <input class="count-number-input qty_{{$item->id}}" type="text" value="1" readonly="">
+                                    <button class="btn btn-outline-secondary btn-sm right inc_{{$item->id}}" onclick="qty_increment({{$item->id}})"> <i class="icofont-plus"></i> </button>
+                                </span>
+                                <div class="media">
+                                    <div class="mr-2"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                    <div class="media-body">
+                                        <p class="mt-1 mb-0 text-black">{{$item->name}} {{$cart[$item->id]['dis_price']}} x {{$cart[$item->id]['quantity']}}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="gold-members p-2 border-bottom">
+                            @endforeach
+                        @endif
+                        <!-- <div class="gold-members p-2 border-bottom">
                             <p class="text-gray mb-0 float-right ml-2">$260</p>
                             <span class="count-number float-right">
                                 <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i> </button>
@@ -697,15 +716,19 @@
                                     <p class="mt-1 mb-0 text-black">Mixed Veg</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="mb-2 bg-white rounded p-2 clearfix">
                         <img class="img-fluid float-left" src="{{asset('')}}assets/img/wallet-icon.png">
-                        <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">$456.4</span></h6>
-                        <p class="seven-color mb-1 text-right">Extra charges may apply</p>
-                        <p class="text-black mb-0 text-right">You have saved $955 on the bill</p>
+                        <h6 class="font-weight-bold text-right mb-2">SubTotal : <span class="text-danger">${{number_format($total,2)}}</span></h6>
+                        <h6 class="font-weight-bold text-right mb-2">Discount : <span class="text-danger">${{number_format($t_discount,2)}}</span></h6>
+                        <h6 class="font-weight-bold text-right mb-2">Total : <span class="text-danger">${{number_format($total-$t_discount,2)}}</span></h6>
+                        <!-- <p class="seven-color mb-1 text-right">Extra charges may apply</p> -->
+                        @if($t_discount>0)
+                        <p class="text-black mb-0 text-right">You have saved ${{number_format($t_discount,2)}} on the bill</p>
+                        @endif
                     </div>
-                    <a href="checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a>
+                    <a href="{{route('cart')}}" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a>
                 </div>
                 <div class="text-center pt-2 mb-4">
                     <img class="img-fluid" src="https://dummyimage.com/352x600/ccc/ffffff.png&amp;text=Google+ads">
@@ -727,8 +750,9 @@
    
         function qty_increment(inc){
             var qty_inc = $('.qty_'+inc).val();
-            qty_inc++;
-            $('.qty_'+inc).val(qty_inc);
+            //qty_inc++;
+            $('.qty_'+inc).val(qty_inc++);
+            add_to_cart(inc)
         }
         function qty_decrement(dec){
             var qty_dec = $('.qty_'+dec).val();
@@ -737,6 +761,7 @@
             qty_dec = 1;
             alert('Minimum Quantity 1')
             $('.qty_'+dec).val(qty_dec);
+            add_to_cart(dec);
         }
     
     function add_to_cart(i){
@@ -746,11 +771,13 @@
       method: "get",
       data: {
         id: i, 
-        quantity: $('.qty_'+i).val()
+        quantity: $('.qty_'+i).val(),
+        restaurant_id:'{{$restaurant->id}}'
       },
       success: function (response) {
           console.log(response);
         $('.cart-count').text(response.total_product);
+        window.location.replace(response.url);
         $('.cs-alert span').html(response.msg);
         if(response.type)
          $('.cs-alert').addClass(response.type);

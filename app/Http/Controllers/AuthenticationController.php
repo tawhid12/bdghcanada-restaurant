@@ -20,7 +20,9 @@ use App\Http\Requests\Auth\newUserRequest;
 
 class AuthenticationController extends Controller
 {
+    
     use ResponseTrait, ImageHandleTraits;
+    
     public function signInForm(){
         return view('authentication.login');
     }
@@ -36,6 +38,10 @@ class AuthenticationController extends Controller
         return view('authentication.restaurant_register');
     }
 
+    public function delivery_boy_signUpForm(){
+        return view('authentication.delivery_boy_register');
+    }
+
     public function signUpForm(){
         return view('authentication.register');
     }
@@ -45,6 +51,36 @@ class AuthenticationController extends Controller
             $lastCreatedUser = User::take(1)->orderBy('id', 'desc')->first();
             $user = new User;
             $user->roleId = 2;
+            $user->name = $request->fullName;
+            $user->email = $request->email;
+            $user->mobileNumber = $request->mobileNumber;
+            $user->password = md5($request->password);
+            $user->status = 1;
+            $user->userCreatorId = 1;
+            $user->created_at = Carbon::now();
+
+            if(!!$user->save()){
+				$userd = new UserDetail;
+				$userd->userId = $user->id;
+				
+				if($request->has('photo')) $userd->photo = $this->uploadImage($request->file('photo'), 'user/photo');
+				
+				$userd->address = $request->address;
+				$userd->save();
+				
+				return redirect(route('signInForm'))->with($this->responseMessage(true, null, 'Successfully Registered'));
+			}
+        } catch (Exception $e) {
+            return redirect(route('signUpForm'))->with($this->responseMessage(false, 'error', 'Please try again!'));
+            return false;
+        }
+    }
+
+    public function signUp_delivery_boy_Store(newUserRequest $request){
+        try {
+            $lastCreatedUser = User::take(1)->orderBy('id', 'desc')->first();
+            $user = new User;
+            $user->roleId = 4;
             $user->name = $request->fullName;
             $user->email = $request->email;
             $user->mobileNumber = $request->mobileNumber;
@@ -124,7 +160,8 @@ class AuthenticationController extends Controller
     
     public function signOut(){
         //$url = $request->input('url');
-        request()->session()->flush();
+        //request()->session()->flush();
+        request()->session()->forget(['user','email','name','username','mobileNumber','roleId','uphoto']);
         return redirect(route('signInForm'))->with($this->responseMessage(true, "error", 'Successfully logout.'));
     }
 

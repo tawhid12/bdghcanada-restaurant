@@ -18,8 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('icon', 30)->nullable();
             $table->string('name', 100);
             $table->boolean('status')->default(0);
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('restaurant_id');
+            $table->unsignedBigInteger('user_id');  
             $table->timestamps();
         });
     }

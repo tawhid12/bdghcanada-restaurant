@@ -60,4 +60,14 @@
         </div> 
 @endsection
 @push('scripts')
+<script>
+    @if( Session::has('response') )
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.success("{{Session::get('response')['message']}}");
+    @endif
+</script>
 @endpush

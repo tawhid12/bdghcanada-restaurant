@@ -39,7 +39,7 @@ class CreateRolesTable extends Migration
             ],
             [
                 'type' => 'Delivery Boy',
-                'identity' => 'delivery-boy',
+                'identity' => 'delivery',
                 'created_at' => Carbon::now()
             ],
         ]);

@@ -19,23 +19,7 @@
 </div>
 <!--begin::Container-->
 <div class="content-body">
-	
-			<!--begin::Dashboard-->
-			<!--begin::Notice-->
-            @if( Session::has('response') )
-            <div class="alert alert-custom alert-{{Session::get('response')['class']}} alert-shadow gutter-b" role="alert">
-            	<div class="alert-icon">
-            		<i class="flaticon2-bell-4"></i>
-            	</div>
-            	<div class="alert-text">
-            		{{Session::get('response')['message']}}
-            		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            			<span aria-hidden="true">&times;</span>
-            		</button>
-            	</div>
-            		
-            </div>
-            @endif
+
 			<div class="row match-height">
 				
                     <!-- Medal Card -->
@@ -102,7 +86,14 @@
 @endsection
 
 @push('scripts')
-
-	<script src="{{asset('/')}}assets/js/pages/widgets.js?v=7.0.4"></script>
-
+<script>
+    @if( Session::has('response') )
+    toastr.options =
+    {
+        "closeButton" : true,
+        "progressBar" : true
+    }
+            toastr.success("{{Session::get('response')['message']}}");
+    @endif
+</script>
 @endpush

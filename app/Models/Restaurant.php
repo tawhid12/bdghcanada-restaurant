@@ -18,6 +18,9 @@ class Restaurant extends Model
     {
         return $this->hasOne(Gallery::class,'restaurant_id','id');
     }
+    public function food(){
+        return $this->hasOne(Food::class,'restaurant_id','id');
+    }
     public function foods(){
         return $this->hasMany(Food::class,'restaurant_id','id');
     }

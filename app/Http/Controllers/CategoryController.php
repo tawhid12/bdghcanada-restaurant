@@ -30,8 +30,8 @@ class CategoryController extends Controller
             if($request->has('categoryIcon')) $category->icon = $this->uploadImage($request->file('categoryIcon'), 'category');
             $category->name = $request->categoryName;
             $category->status = $request->status;
-            $category->userId = encryptor('decrypt', $request->userId);
-    
+            $category->user_id = encryptor('decrypt', $request->userId);
+            $category->save();
 
             if(!!$category->save()) return redirect(route(currentUser().'.allCategory'))->with($this->responseMessage(true, null, 'Category created'));
 

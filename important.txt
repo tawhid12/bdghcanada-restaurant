@@ -14,3 +14,9 @@ popular restaurant add korte hobe
 popular cities mark from admin
 
 cities or other variable sob khane jeno value pawa jai tah korte hobe construct or boot function diya
+
+isPromoted to show product without id can be sorted by reviews or by admin choice or inserted last order by id desc
+
+discount type can take by choice percentage or amount then convert that ratio into amount
+{{Session::get('response')['class']}}
+superadmin/restaurant/create

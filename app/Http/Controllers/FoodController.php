@@ -9,6 +9,7 @@ use App\Http\Traits\ImageHandleTraits;
 
 
 use App\Models\Food;
+use App\Models\FoodDay;
 use App\Models\ProductList;
 use App\Models\Category;
 use App\Models\Restaurant;
@@ -40,6 +41,7 @@ class FoodController extends Controller
     }
 
     public function store(NewFoodRequest $request){
+        //dd($request->week_day);die;
         /*dd($request->toArray());
         echo '</pre>';*/
         try {
@@ -52,8 +54,10 @@ class FoodController extends Controller
             $food->name = $request->name;
 
             $food->price = $request->price;
+            $food->discount_type = $request->discount_type;
             $food->discount_price = $request->discount_price;
             $food->unit = $request->unit;
+            $food->capacity = $request->capacity;
             $food->featured = $request->featured?$request->featured:0;
             $food->deliverable = $request->deliverable?$request->deliverable:0;
             $food->description = $request->description;
@@ -62,6 +66,14 @@ class FoodController extends Controller
         
 
             if(!!$food->save()){
+                if(count($request->week_day)>0){
+                    foreach($request->week_day as $wd=>$val){
+                        $fw=new FoodDay;
+                        $fw->food_id=$food->id;
+                        $fw->week_day=$wd;
+                        $fw->save();
+                    }
+                }
                 return redirect(route(currentUser().'.allFood'))->with($this->responseMessage(true, null, 'Food created'));
             }
 
@@ -73,11 +85,12 @@ class FoodController extends Controller
     }
 
     public function editForm($id){
+        $week_day = FoodDay::where('food_id','=',encryptor('decrypt', $id))->pluck('week_day')->toArray();
         $data = Food::where('id',encryptor('decrypt', $id))->first();
         $allRestaurant  = Restaurant::where('active','=',1)->orderBy('id', 'DESC')->get();
-		$allCategory = Category::where('userId','=',encryptor('decrypt', request()->session()->get('user')))->orderBy('id', 'DESC')->get();
+		$allCategory = Category::where('user_id','=',encryptor('decrypt', request()->session()->get('user')))->orderBy('id', 'DESC')->get();
         return view('backend.food.edit', compact([
-            'data','allCategory','allRestaurant'
+            'data','allCategory','allRestaurant','week_day'
         ]));
     }
 
@@ -98,15 +111,25 @@ class FoodController extends Controller
             $food->name = $request->name;
 
             $food->price = $request->price;
+            $food->discount_type = $request->discount_type;
             $food->discount_price = $request->discount_price;
             $food->unit = $request->unit;
+            $food->capacity = $request->capacity;
             $food->featured = $request->featured?$request->featured:0;
             $food->deliverable = $request->deliverable?$request->deliverable:0;
             $food->description = $request->description;
 
-            $food->save();
+     
 
             if(!!$food->save()){
+                if(count($request->week_day)>0){
+                    foreach($request->week_day as $wd=>$val){
+                        $fw=new FoodDay;
+                        $fw->food_id=$food->id;
+                        $fw->week_day=$wd;
+                        $fw->save();
+                    }
+                }
                 return redirect(route(currentUser().'.allFood'))->with($this->responseMessage(true, null, 'Product updated'));
             }
 
