@@ -30,6 +30,7 @@ class CreateFoodsTable extends Migration
             $table->string('unit')->default(0.00)->nullable();
             $table->tinyInteger('featured')->default(0)->nullable();
             $table->tinyInteger('best_seller')->default(1)->nullable();
+            $table->tinyInteger('popular')->default(0)->nullable();
             $table->tinyInteger('deliverable')->default(1)->nullable();
             $table->tinyInteger('status')->default(1)->nullable();
             $table->timestamps();

@@ -16,7 +16,13 @@ use DB;
 class DashboardController extends Controller
 {
     public function index(){
-		  return view('backend.dashboard.superadmin_dashboard');
+      $restaurants=DB::select(DB::raw("SELECT count(id) as rcount FROM `restaurants`"));
+      $customers=DB::select(DB::raw("SELECT count(id) as ccount FROM `users` where users.roleId=3")); 
+      $foods=DB::select(DB::raw("SELECT count(id) as fcount FROM `foods`")); 
+      $delivery_man=DB::select(DB::raw("SELECT count(id) as dcount FROM `users` where users.roleId=4")); 
+
+
+		  return view('backend.dashboard.superadmin_dashboard',compact('restaurants','customers','foods','delivery_man'));
     }
     public function owner(){
         return view('backend.dashboard.owner_dashboard');

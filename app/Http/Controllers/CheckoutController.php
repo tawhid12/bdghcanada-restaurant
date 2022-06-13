@@ -50,10 +50,10 @@ class CheckoutController extends Controller
                     $foods['food_id'] = $item->id;
                     $foods['user_id'] = encryptor('decrypt', request()->session()->get('user'));
                     $foods['quantity'] = $cart[$item->id]['quantity'];
-                  
+                    DB::table('carts')->insert($foods);
                 }
             }
-            DB::table('carts')->insert($foods);
+            
 
             /*==Insert Data into payment Table (New Order Received) ====*/
             DB::table('payments')->insert(
@@ -67,6 +67,7 @@ class CheckoutController extends Controller
                 /*==Insert Data into Order Table (New Order Received) ====*/
                 $order = new Order();
                 $order->user_id = encryptor('decrypt', request()->session()->get('user'));
+                $order->cart=base64_encode(json_encode(array("cart"=>$cart,"cal_cart"=>$cal_cart)));
                 $order->order_status_id = 1;
                 $order->delivery_fee = 50;
                 $order->delivery_address_id = $request->delivery_address_id;
@@ -112,9 +113,17 @@ class CheckoutController extends Controller
             return $cal_cart;
         }
 
-        public function thank_you($id){
+        public function thank_you($order){
             $cities = City::all();
-return view('thank-you',compact('cities'));
+            return view('thank-you',compact('cities','order'));
+        }
+
+        public function view_order($order){
+            $order=Order::find($order);
+            $cities = City::all();
+            $cart=json_decode(base64_decode($order->cart),true);
+            //dd($cart);
+            return view('orders',compact('cities','cart','order'));
         }
 
        

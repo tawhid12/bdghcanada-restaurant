@@ -45,10 +45,10 @@
 					            //$photo= $UserData->details->photo; 
 				            @endphp
                             @if(!empty($photo))
-                            <img alt="Generic placeholder image" src="{{asset('storage/images/user/photo/'.$photo)}}"
+                            <img alt="Generic placeholder image" src="{{asset('storage/app/public/images/user/photo/'.$photo)}}"
                                 class="nav-osahan-pic rounded-pill">{{encryptor('decrypt', Session::get('username'))}}
                             @else
-                            <img alt="Generic placeholder image" src="{{asset('/')}}images/{{ Session::get('uphoto') }}"
+                            <img alt="Generic placeholder image" src="{{asset('/')}}storage/app/public/images/user/photo/{{ Session::get('uphoto') }}"
                                 class="nav-osahan-pic rounded-pill">{{encryptor('decrypt', Session::get('username'))}}
 							@endif
                         </a>

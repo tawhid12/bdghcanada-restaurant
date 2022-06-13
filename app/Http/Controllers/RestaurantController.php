@@ -207,4 +207,21 @@ class RestaurantController extends Controller
         return view('backend.restaurant.all',compact('restaurant'));
     }
 
+    public function changerestaurantFeatured(Request $request)
+    {
+        $user = Restaurant::find($request->id);
+        $user->isPromoted = $request->isPromoted;
+        $user->save();
+  
+        return response()->json(['success'=>'Status change successfully.']);
+    }
+    public function changerestaurantPopular(Request $request)
+    {
+        $user = Restaurant::find($request->id);
+        $user->isPopular = $request->isPopular;
+        $user->save();
+  
+        return response()->json(['success'=>'Status change successfully.']);
+    }
+
 }

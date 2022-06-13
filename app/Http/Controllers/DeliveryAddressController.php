@@ -18,6 +18,6 @@ class DeliveryAddressController extends Controller
             )
         );
         /*check to redirect if address add from front or backend */
-        return redirect()->route('checkout');
+        return redirect()->route('cart');
     }
 }

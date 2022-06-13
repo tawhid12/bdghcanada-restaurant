@@ -75,7 +75,8 @@
               <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{ encryptor('decrypt', Session::get('username')) }}</span></div>
               <span class="avatar">
                 {{--<img class="round" src="{{asset('/')}}storage/images/user/photo/{{ Session::get('uphoto') }}" alt="avatar" height="40" width="40">--}}
-                <img class="round" src="{{asset('/')}}images/{{ Session::get('uphoto') }}" alt="avatar" height="40" width="40">
+                <img class="round" src="{{asset('storage/app/public/images/user/photo')}}/{{ Session::get('uphoto') }}" alt="avatar" height="40" width="40">
+   
                 <span class="avatar-status-online"></span></span>
               </a>
 
@@ -147,6 +148,18 @@
               <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allRestaurant')}} @endif">
                 <i data-feather="columns"></i>
                 <span class="menu-title text-truncate" data-i18n="Customer">All Restaurant</span>
+              </a>
+            </li>
+            <li class="nav-item {{menuActive(currentUser().'.allFood')}}">
+              <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allFood')}} @endif">
+                <i data-feather="clipboard"></i>
+                <span class="menu-title text-truncate" data-i18n="Customer">All Food</span>
+              </a>
+            </li>
+            <li class="nav-item {{menuActive(currentUser().'.coupon.index')}}">
+              <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.coupon.index')}} @endif">
+                <i data-feather="command"></i>
+                <span class="menu-title text-truncate" data-i18n="Customer">All Cupon</span>
               </a>
             </li>
           @endif

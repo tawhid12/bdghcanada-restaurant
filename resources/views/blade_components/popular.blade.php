@@ -19,8 +19,8 @@
                                                 class="icofont-heart"></i></a></div>
                                     <div class="member-plan position-absolute"><span
                                             class="badge badge-dark">Promoted</span></div>
-                                    <a href="detail.html">
-                                        <img src="{{asset('')}}assets/img/list/1.png" class="img-fluid item-img">
+                                    <a href="{{route('restaurantDetl',$promo_rs->id)}}">
+                                        <img src="{{asset('/')}}storage/app/public/images/feature_image/{{$promo_rs->feature_image}}" class="img-fluid item-img">
                                     </a>
                                 </div>
                                 <div class="p-3 position-relative">

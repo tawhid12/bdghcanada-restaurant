@@ -17,6 +17,7 @@ use App\Http\Controllers\RestaurantDetailsController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DeliveryAddressController;
+use App\Http\Controllers\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,11 +62,23 @@ Route::get('/logout', [AuthenticationController::class,'signOut'])->name('logOut
 Route::group(['middleware' => 'isSuperAdmin'], function(){
     Route::prefix('superadmin')->group(function () {
         Route::get('/dashboard', [DashboardController::class,'index'])->name('superadminDashboard');
+
         /*====Restaurant==*/
         //Route::resource('/info',RestaurantController::class,['as' => 'superadmin']);
         /*====Restaurant Gallery==*/
         //Route::resource('/gallery',GalleryController::class,['as' => 'superadmin']);
         Route::get('/all/restaurant',[RestaurantController::class,'allRestaurant'])->name('superadmin.allRestaurant');
+        Route::get('/changeresfeaturedStatus', [RestaurantController::class,'changerestaurantFeatured'])->name('superadmin.changerestaurantFeatured');
+        Route::get('/changerespopularStatus', [RestaurantController::class,'changerestaurantPopular'])->name('superadmin.changerestaurantPopular');
+
+        /*====Food===========*/
+        Route::get('/all/food', [FoodController::class,'allFood'])->name('superadmin.allFood');
+        Route::get('/changefeaturedStatus', [FoodController::class,'changefoodFeatured'])->name('superadmin.changefoodFeatured');
+        Route::get('/changepopularStatus', [FoodController::class,'changefoodPopular'])->name('superadmin.changefoodPopular');
+
+        /*===Cupon===*/
+        Route::resource('/coupon',CouponController::class,['as' => 'superadmin']);
+
     });
    
 
@@ -167,6 +180,8 @@ Route::group(['middleware' => 'isCustomer'], function(){
         Route::post('/final_checkout', [CheckoutController::class,'finalCheckout'])->name('finalCheckout');
         /*Final Checkout*/
         Route::get('/thank-you/{id}', [CheckoutController::class,'thank_you'])->name('thank_you');
+        /*Order By Id*/
+        Route::get('/view-order/{id}', [CheckoutController::class,'view_order'])->name('view_order');
 
         /*Delivery Address */
         Route::post('/delivery-address', [DeliveryAddressController::class,'store'])->name('customer.deliveryAddress.store');

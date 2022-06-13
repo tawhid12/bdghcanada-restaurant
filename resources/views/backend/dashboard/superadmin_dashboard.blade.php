@@ -30,7 +30,24 @@
                                     <p class="card-text font-small-3">All the Restaurant you can easily findout from here..
                                     </p>
                                     <h5 class="mb-75 mt-2 pt-50">
-                                        Total-Restaurant : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                        Total-Restaurant : <span class=" font-weight-bold text-secondary ">{{$restaurants[0]->rcount}}</span>
+                                    </h5>
+
+                                    <div class=" justify-content-between bottom-button">
+                                        <a href="{{--route(currentUser().'.allProduct')--}}" class="btn btn-gradient-primary">View</a>
+                                        <a href="{{--route(currentUser().'.addNewProductForm')--}}" class="btn btn-gradient-success">Create</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 col-12">
+                            <div class="card card-congratulation-medal">
+                                <div class="card-body">
+                                    <h3>Food</h3>
+                                    <p class="card-text font-small-3">All the Food you can easily findout from here..
+                                    </p>
+                                    <h5 class="mb-75 mt-2 pt-50">
+                                        Total-Food Items: <span class=" font-weight-bold text-secondary ">{{$foods[0]->fcount}}</span>
                                     </h5>
 
                                     <div class=" justify-content-between bottom-button">
@@ -49,7 +66,7 @@
                                     <p class="card-text font-small-3">All the Customer you can easily findout from here..
                                     </p>
                                     <h5 class="mb-75 mt-2 pt-50">
-                                        Total-Customer : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                        Total-Customer : <span class=" font-weight-bold text-secondary ">{{$customers[0]->ccount}}</span>
                                     </h5>
 
                                     <div class=" justify-content-between bottom-button">
@@ -64,11 +81,11 @@
 										 <div class="col-xl-4 col-md-6 col-12">
                             <div class="card card-congratulation-medal">
                                 <div class="card-body">
-                                    <h3>Orders</h3>
-                                    <p class="card-text font-small-3">All the Orders you can easily findout from here..
+                                    <h3>Delivery Man</h3>
+                                    <p class="card-text font-small-3">All the Delivery Man you can easily findout from here..
                                     </p>
                                     <h5 class="mb-75 mt-2 pt-50">
-                                        Total-Orders : <span class=" font-weight-bold text-secondary ">{{--$products[0]->pcount--}}</span>
+                                        Total-Delivery Man : <span class=" font-weight-bold text-secondary ">{{$delivery_man[0]->dcount}}</span>
                                     </h5>
 
                                     <div class=" justify-content-between bottom-button">

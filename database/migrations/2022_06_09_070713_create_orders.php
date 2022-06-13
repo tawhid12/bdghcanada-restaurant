@@ -16,6 +16,7 @@ class CreateOrders extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->text('cart');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('order_status_id')->index();
             $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
@@ -23,7 +24,7 @@ class CreateOrders extends Migration
             $table->double('delivery_fee',8,2)->nullable()->default(0.00);
             $table->text('hint')->nullable()->default('');
             $table->tinyInteger('active')->default(1);
-            $table->unsignedBigInteger('driver_id')->index();
+            $table->unsignedBigInteger('driver_id')->index()->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
             $table->unsignedBigInteger('delivery_address_id')->index()->nullable();
             $table->foreign('delivery_address_id')->references('id')->on('delivery_addresses')->onDelete('cascade');

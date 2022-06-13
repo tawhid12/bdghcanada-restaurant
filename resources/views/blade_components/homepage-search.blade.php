@@ -41,87 +41,18 @@
                     <h6 class="mt-4 text-shadow font-weight-normal">E.g. Beverages, Pizzas, Chinese, Bakery, Indian...
                     </h6>
                     <div class="owl-carousel owl-carousel-category owl-theme">
+                        @forelse($popular_food_items as $popular_food_item)
                         <div class="item">
                             <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/1.png" alt="">
-                                    <h6>American</h6>
-                                    <p>156</p>
+                                <a href="{{route('restaurantDetl',$popular_food_item->id)}}">
+                                    <img class="img-fluid" src="{{asset('/')}}storage/app/public/images/food/thumbnail/{{$popular_food_item->thumbnail}}" alt="">
+                                    <h6>{{$popular_food_item->name}}</h6>
+                                    <p>{{$popular_food_item->price}}</p>
                                 </a>
                             </div>
                         </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/2.png" alt="">
-                                    <h6>Pizza</h6>
-                                    <p>120</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/3.png" alt="">
-                                    <h6>Healthy</h6>
-                                    <p>130</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/4.png" alt="">
-                                    <h6>Vegetarian</h6>
-                                    <p>120</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/5.png" alt="">
-                                    <h6>Chinese</h6>
-                                    <p>111</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/6.png" alt="">
-                                    <h6>Hamburgers</h6>
-                                    <p>958</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/7.png" alt="">
-                                    <h6>Dessert</h6>
-                                    <p>56</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/8.png" alt="">
-                                    <h6>Chicken</h6>
-                                    <p>40</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="#">
-                                    <img class="img-fluid" src="{{asset('')}}assets/img/list/9.png" alt="">
-                                    <h6>Indian</h6>
-                                    <p>156</p>
-                                </a>
-                            </div>
-                        </div>
+                        @empty
+                        @endforelse
                     </div>
                 </div>
                 <div class="col-md-4">

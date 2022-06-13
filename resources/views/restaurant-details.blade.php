@@ -4,14 +4,14 @@
     @include('blade_components.nav-bar')
 <section class="restaurant-detailed-banner">
     <div class="text-center">
-        <img class="img-fluid cover" src="{{asset('/')}}storage/images/feature_image/{{$restaurant->feature_image}}">
+        <img class="img-fluid cover" src="{{asset('/')}}storage/app/public/images/feature_image/{{$restaurant->feature_image}}">
     </div>
     <div class="restaurant-detailed-header">
         <div class="container">
             <div class="row d-flex align-items-end">
                 <div class="col-md-8">
                     <div class="restaurant-detailed-header-left">
-                        <img class="{{asset('')}}assets/img-fluid mr-3 float-left" alt="osahan" src="{{asset('/')}}storage/images/logo/{{$restaurant->logo}}">
+                        <img class="{{asset('')}}assets/img-fluid mr-3 float-left" alt="osahan" src="{{asset('/')}}storage/app/public/images/logo/{{$restaurant->logo}}">
                         <h2 class="text-white">{{$restaurant->name}}</h2>
                         <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{$restaurant->address}} @if($restaurant->closed == 1)<span class="badge badge-danger">CLOSE</span>@else <span class="badge badge-success">OPEN</spa>@endif
                         </p>

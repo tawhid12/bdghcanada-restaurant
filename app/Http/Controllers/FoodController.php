@@ -59,6 +59,7 @@ class FoodController extends Controller
             $food->unit = $request->unit;
             $food->capacity = $request->capacity;
             $food->featured = $request->featured?$request->featured:0;
+            $food->popular = $request->popular?$request->popular:0;
             $food->deliverable = $request->deliverable?$request->deliverable:0;
             $food->description = $request->description;
             
@@ -116,6 +117,7 @@ class FoodController extends Controller
             $food->unit = $request->unit;
             $food->capacity = $request->capacity;
             $food->featured = $request->featured?$request->featured:0;
+            $food->popular = $request->popular?$request->popular:0;
             $food->deliverable = $request->deliverable?$request->deliverable:0;
             $food->description = $request->description;
 
@@ -220,5 +222,28 @@ class FoodController extends Controller
         }
 
     }
+
+    public function allFood(){
+        $foods = Food::orderBy('id', 'DESC')->paginate(25);
+        return view('backend.food.all',compact('foods'));
+    }
+
+    public function changefoodFeatured(Request $request)
+    {
+        $user = Food::find($request->id);
+        $user->featured = $request->featured;
+        $user->save();
+  
+        return response()->json(['success'=>'Status change successfully.']);
+    }
+    public function changefoodPopular(Request $request)
+    {
+        $user = Food::find($request->id);
+        $user->popular = $request->popular;
+        $user->save();
+  
+        return response()->json(['success'=>'Status change successfully.']);
+    }
+    
 	
 }

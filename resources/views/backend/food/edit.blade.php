@@ -138,6 +138,14 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-lg-2">
+						<div class="mb-1">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" id="popular" name="popular" @if($data->popular ==1 ) checked @endif>
+								<label class="form-check-label" for="featured">Is Popular</label>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-4">
 						<div class="mb-1">
 							<div class="form-check">

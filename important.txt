@@ -20,3 +20,14 @@ isPromoted to show product without id can be sorted by reviews or by admin choic
 discount type can take by choice percentage or amount then convert that ratio into amount
 {{Session::get('response')['class']}}
 superadmin/restaurant/create
+
+
+for date class has to use format-picker
+restaurant.all.blade.php all file included
+
+default pagination change korte hobe
+search keywords = how to modify laravel 8 pagination
+https://stackoverflow.com/questions/67839557/how-to-customize-default-pagination-in-laravel-8
+https://www.codecheef.org/article/laravel-7-custom-pagination-example-tutorial
+
+food name max charachter set korte hobe
