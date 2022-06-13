@@ -611,6 +611,7 @@
                         </div>
                     </div>
                 </div>
+                @if(count((array) session('cart')) > 0)
                 <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
                     <h5 class="mb-1 text-white">Your Order</h5>
                     <p class="mb-4 text-white">{{ count((array) session()->get('cart')) }} ITEMS</p>
@@ -620,14 +621,12 @@
                         $t_vat=0;
                         //print_r(session()->get('cart'));
                     @endphp
-                    @if(count((array) session('cart')))
                         @foreach($cart as $c)
                             @php
                                 $total+=$c['price'] * $c['quantity'];
                                 $t_discount+=$c['quantity'] * $c['discount'];
                             @endphp
                         @endforeach
-                    @endif
                     <div class="bg-white rounded shadow-sm mb-2">
                         @if(count((array) $products)>0)
                             @foreach($products as $item)
@@ -643,6 +642,7 @@
                                     <div class="media-body">
                                         <p class="mt-1 mb-0 text-black">{{$item->name}} {{$cart[$item->id]['dis_price']}} x {{$cart[$item->id]['quantity']}}</p>
                                     </div>
+                                    <a href="javascript:void(0)" onclick="remove_cart({{$item->id}})" class="mr-2"><i class="icofont-bin text-danger" style="font-size:14px;"></i></a>
                                 </div>
                             </div>
                             @endforeach
@@ -728,8 +728,10 @@
                         <p class="text-black mb-0 text-right">You have saved ${{number_format($t_discount,2)}} on the bill</p>
                         @endif
                     </div>
+
                     <a href="{{route('cart')}}" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a>
                 </div>
+                @endif
                 <div class="text-center pt-2 mb-4">
                     <img class="img-fluid" src="https://dummyimage.com/352x600/ccc/ffffff.png&amp;text=Google+ads">
                 </div>
@@ -747,7 +749,6 @@
 @endsection
 @push('scripts')
 <script>
-   
         function qty_increment(inc){
             var qty_inc = $('.qty_'+inc).val();
             //qty_inc++;
@@ -795,5 +796,38 @@
 		}
     });
   }
+
+  function remove_cart(i){
+    
+    $.ajax({
+    url: '{{ route('front.removeCart') }}',
+    method: "get",
+    data: {
+        id: i,
+        restaurant_id:'{{$restaurant->id}}'
+    },
+    success: function (r) {
+        window.location.replace(r.url);
+    }
+    });
+}
+function update_cart(q,i){
+
+    $.ajax({
+    url: '{{ route('front.updateCart') }}',
+    method: "get",
+    data: {
+        id: i,
+        qty:q
+    },
+    success: function (r) {
+        $('.cart_data').html(r);
+
+        setTimeout(() => {
+        $('.cs-alert').hide('slowly');
+        }, 3000);
+    }
+    });
+}
 </script>
 @endpush

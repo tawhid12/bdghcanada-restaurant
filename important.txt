@@ -25,9 +25,28 @@ superadmin/restaurant/create
 for date class has to use format-picker
 restaurant.all.blade.php all file included
 
+git remote set-url origin https://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@github.com/tawhid12/bdghcanada-restaurant.git
+
 default pagination change korte hobe
 search keywords = how to modify laravel 8 pagination
 https://stackoverflow.com/questions/67839557/how-to-customize-default-pagination-in-laravel-8
 https://www.codecheef.org/article/laravel-7-custom-pagination-example-tutorial
 
-food name max charachter set korte hobe
+
+edit user password personal information remove not done yet
+
+
+
+   $('.cart-btn').on('click',function(){
+        alert('ok');
+        @php
+        session()->put('previous-url', url()->previous());
+        @endphp
+    });
+
+ if (session()->has('previous-url'))
+        $url = session()->get('previous-url');
+
+@php
+print_r(session()->get('previous-url'));die;
+@endphp

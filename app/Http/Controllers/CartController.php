@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Food;
 use Illuminate\Http\Request;
-
+use View;
 class CartController extends Controller
 {
     /**
@@ -172,17 +172,19 @@ class CartController extends Controller
 
                 $cart = session()->get('cart', []);
                 $pids=array_keys((array) session('cart'));
-                $products=Product::whereIn('id',$pids)->get();
+                $products=Food::whereIn('id',$pids)->get();
+                $url = route('restaurantDetl',$request->restaurant_id);
                 $type="success";
                 $msg="<b>Congratulation!</b> Product deleted from cart.";
-                return View::make("frontend.cart_support",compact('cart','products','type','msg'))->render();
+                return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
+
             }else{
                 $msg="<b>Sorry</b>! This product is not available in your cart.";
-                return View::make("frontend.cart_support",compact('cart','products','type','msg'))->render();
+                return response()->json(array("msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
             }
         }else{
                 $msg="<b>Sorry</b>! Something is wrong? Please try again";
-            return View::make("frontend.cart_support",compact('cart','products','type','msg'))->render();
+                return response()->json(array("msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
         }
 
     }

@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="offer-dedicated-body-left">
-                    <div class="bg-white rounded shadow-sm p-4 mb-4">
+                    <!-- <div class="bg-white rounded shadow-sm p-4 mb-4">
                         <h6 class="mb-3">You may also like</h6>
                         <div class="owl-carousel owl-theme owl-carousel-five offers-interested-carousel">
                             <div class="item">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="pt-2"></div>
                     <form method="post" action="{{route('finalCheckout')}}">
                     @csrf
@@ -310,14 +310,19 @@
                     </div>
                 </div>
             </div>
+            @php
+            $cart = session()->get('cart');
+            $restaurant_id = array_column($cart, 'restaurant_id');
+            $restaurant = \App\Models\Restaurant::find($restaurant_id[0]);
+            @endphp
             <div class="col-md-4">
                 <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
                     <div class="d-flex mb-4 osahan-cart-item-profile">
-                        <img class="img-fluid mr-3 rounded-pill" alt="osahan" src="img/2.jpg">
+                        <img class="img-fluid mr-3 rounded-pill" alt="osahan" src="{{asset('/')}}storage/app/public/images/logo/{{$restaurant->logo}}">
                         <div class="d-flex flex-column">
-                            <h6 class="mb-1 text-white">Spice Hut Indian Restaurant
+                            <h6 class="mb-1 text-white">{{$restaurant->name}}
                             </h6>
-                            <p class="mb-0 text-white"><i class="icofont-location-pin"></i> 2036 2ND AVE, NEW YORK, NY 10029</p>
+                            <p class="mb-0 text-white"><i class="icofont-location-pin"></i> {{$restaurant->address}}</p>
                         </div>
                     </div>
                     <form method="post" action="{{route('finalCheckout')}}">
@@ -376,10 +381,10 @@
                 <div class="alert alert-success" role="alert">
                     You have saved <strong>${{number_format($t_discount,2)}}</strong> on the bill
                 </div>
-                <div class="pt-2"></div>
+                <!-- <div class="pt-2"></div>
                 <div class="text-center pt-2">
                     <img class="img-fluid" src="https://dummyimage.com/352x504/ccc/ffffff.png&amp;text=Google+ads">
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

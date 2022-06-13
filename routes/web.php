@@ -175,7 +175,7 @@ Route::group(['middleware' => 'isCustomer'], function(){
         Route::post('/profile', [UserController::class,'storeProfile'])->name('customer.storeProfile');
         
        /*Checkout Page Redirect*/
-        Route::get('/cart', [CheckoutController::class,'index'])->name('cart');
+        Route::get('/cart/{page?}', [CheckoutController::class,'index'])->name('cart');
         /*Final Checkout*/
         Route::post('/final_checkout', [CheckoutController::class,'finalCheckout'])->name('finalCheckout');
         /*Final Checkout*/

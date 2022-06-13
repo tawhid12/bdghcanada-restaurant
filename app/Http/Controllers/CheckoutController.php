@@ -13,12 +13,15 @@ use Session;
 class CheckoutController extends Controller
 {
     use ResponseTrait;
-    public function index(){
+    public function index(Request $request){
         $cities = City::all();
         $cart = session()->get('cart', []);
         $pids=array_keys((array) session('cart'));
         $products=Food::whereIn('id',$pids)->get();
         $delivery_addresses = DB::table('delivery_addresses')->where('user_id','=',currentUserId())->get();
+        /* get similar product */
+        $similarpro=$products->pluck('category_id','category_id');
+        $similarpro=Food::whereNotIn('id',$pids)->whereIn('category_id',$similarpro)->limit(12)->get();
         return view('checkout',compact('cities','cart','products','delivery_addresses'));
     }
     public function finalCheckout(Request $request){

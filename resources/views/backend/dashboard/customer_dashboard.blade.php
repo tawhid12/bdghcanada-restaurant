@@ -15,11 +15,19 @@
                 <div class="border-bottom p-4">
                     <div class="osahan-user text-center">
                         <div class="osahan-user-media">
-                            <img class="mb-3 rounded-pill shadow-sm mt-1" src="img/user/4.png" alt="gurdeep singh osahan">
+                            @php 
+                            $UserData = \App\Models\User::where("id", currentUserId())->first();
+					        $photo= $UserData->details->photo 
+                            @endphp
+                            @if($photo)
+                            <img class="mb-3 rounded-pill shadow-sm mt-1" src="{{asset('storage/app/public/images/user/photo/'.$photo)}}" alt="user profile picture">
+                            @else
+                            <img class="mb-3 rounded-pill shadow-sm mt-1" src="{{asset('/')}}storage/app/public/images/user/photo/{{ Session::get('uphoto') }}" alt="User avatar">
+                            @endif
                             <div class="osahan-user-media-body">
-                                <h6 class="mb-2">Gurdeep Singh</h6>
-                                <p class="mb-1">+91 85680-79956</p>
-                                <p><a href="https://askbootstrap.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1c757d71736f7d747d725c7b717d7570327f7371">[email&#160;protected]</a></p>
+                                <h6 class="mb-2">{{encryptor('decrypt', Session::get('name'))}}</h6>
+                                <p class="mb-1">{{encryptor('decrypt', Session::get('mobileNumber'))}}</p>
+                                <p>{{encryptor('decrypt', Session::get('email'))}}</p>
                                 <p class="mb-0 text-black font-weight-bold"><a class="text-primary mr-3" data-toggle="modal" data-target="#edit-profile-modal" href="#"><i class="icofont-ui-edit"></i> EDIT</a></p>
                             </div>
                         </div>
@@ -35,9 +43,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="favourites-tab" data-toggle="tab" href="#favourites" role="tab" aria-controls="favourites" aria-selected="false"><i class="icofont-heart"></i> Favourites</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false"><i class="icofont-credit-card"></i> Payments</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" id="addresses-tab" data-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false"><i class="icofont-location-pin"></i> Addresses</a>
                     </li>
@@ -95,16 +103,17 @@
                             </div>
                         </div>
                         @empty
+                        <p class="text-danger">No Orders</p>
                         @endforelse
                     </div>
                     <div class="tab-pane fade" id="offers" role="tabpanel" aria-labelledby="offers-tab">
                         <h4 class="font-weight-bold mt-0 mb-4">Offers</h4>
                         <div class="row mb-4 pb-2">
                             @php
-                            $offers = \App\Models\Cupon::all();
+                            $offers = \App\Models\Coupon::all();
                             @endphp
                             @forelse($offers as $offer)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-3">
                                 <div class="card offer-card shadow-sm">
                                     <div class="card-body">
                                         <h5 class="card-title"><img src="img/bank/1.png"></h5>
@@ -146,124 +155,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                        <a href="detail.html">
-                                            <img src="img/list/5.png" class="img-fluid item-img">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="detail.html" class="text-black">Thai Famous Cuisine</a></h6>
-                                            <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                            <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 30–35 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                            <span class="badge badge-success">OFFER</span> <small>65% off</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                        <a href="detail.html">
-                                            <img src="img/list/6.png" class="img-fluid item-img">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="detail.html" class="text-black">The osahan Restaurant
-                                                </a>
-                                            </h6>
-                                            <p class="text-gray mb-3">North • Hamburgers • Pure veg</p>
-                                            <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $500 FOR TWO</span></p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                            <span class="badge badge-danger">OFFER</span> <small>65% OSAHAN50</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                        <a href="detail.html">
-                                            <img src="img/list/7.png" class="img-fluid item-img">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="detail.html" class="text-black">Stan's Restaurant
-                                                </a>
-                                            </h6>
-                                            <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                            <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                            <span class="badge badge-danger">OFFER</span> <small>65% Coupon OSAHAN50</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                        <a href="detail.html">
-                                            <img src="img/list/8.png" class="img-fluid item-img">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="detail.html" class="text-black">Polo Lounge
-                                                </a>
-                                            </h6>
-                                            <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                            <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                            <span class="badge badge-danger">OFFER</span> <small> Coupon OSAHAN50</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                    <div class="list-card-image">
-                                        <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                        <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i class="icofont-heart"></i></a></div>
-                                        <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                        <a href="detail.html">
-                                            <img src="img/list/9.png" class="img-fluid item-img">
-                                        </a>
-                                    </div>
-                                    <div class="p-3 position-relative">
-                                        <div class="list-card-body">
-                                            <h6 class="mb-1"><a href="detail.html" class="text-black">Jack Fry's
-                                                </a>
-                                            </h6>
-                                            <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                            <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                                        </div>
-                                        <div class="list-card-badge">
-                                            <span class="badge badge-danger">OFFER</span> <small>65% </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-md-12 text-center load-more">
                                 <button class="btn btn-primary" type="button" disabled>
                                     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -272,7 +164,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+                    <!-- <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
                         <h4 class="font-weight-bold mt-0 mb-4">Payments</h4>
                         <div class="row">
                             <div class="col-md-6">
@@ -426,7 +318,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
                         <h4 class="font-weight-bold mt-0 mb-4">Manage Addresses</h4>
                         <div class="row">
@@ -453,10 +345,48 @@
     </div>
 </div>
 </section>
-<!-- Restaurant login redirect -->
-@include('blade_components.restaurant-join')
+
 <!-- Newsletter redirect -->
 @include('blade_components.newsletter')
+
+
+<div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="edit-profile" aria-hidden="true">
+<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="edit-profile">Edit profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Phone number
+                        </label>
+                        <input type="text" value="{{encryptor('decrypt', Session::get('mobileNumber'))}}" class="form-control" placeholder="Enter Phone number">
+                    </div>
+                    <!-- <div class="form-group col-md-12">
+                        <label>Email id
+                        </label>
+                        <input type="text" value="iamosahan@gmail.com" class="form-control" placeholder="Enter Email id">
+                    </div> -->
+                    <div class="form-group col-md-12 mb-0">
+                        <label>Password
+                        </label>
+                        <input type="password" value="**********" class="form-control" placeholder="Enter password">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-primary" data-dismiss="modal">CANCEL
+            </button><button type="button" class="btn d-flex w-50 text-center justify-content-center btn-primary">UPDATE</button>
+        </div>
+    </div>
+</div>
+</div>
 @endsection
 @push('scripts')
 <script src="{{asset('/')}}backend/assets/vendors/js/extensions/toastr.min.js"></script>
