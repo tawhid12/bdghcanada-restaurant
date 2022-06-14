@@ -485,6 +485,10 @@ img{
     right: 8px;
     bottom: 8px;
 }
+.list-card .schedule {
+    left: 8px;
+    bottom: 8px;
+}
 .list-card .star .badge {
     font-size: 11px;
     padding: 5px 5px;

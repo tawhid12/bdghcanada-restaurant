@@ -170,6 +170,14 @@
 					</div>
 				</div>
 				<div class="form-group row">
+					<div class="col-lg-4 mb-1">
+						<label> Opening Time: </label>
+						<input type="time" name="opening_time" class="form-control" value="{{old('opening_time',$restaurant->opening_time) }}" />
+					</div>
+					<div class="col-lg-4 mb-1">
+						<label> Closing Time: </label>
+						<input type="time" name="closing_time" class="form-control" value="{{old('closing_time',$restaurant->closing_time) }}" />
+					</div>
 					<div class="col-lg-4">
 						<label>Upload Restaurant Gallery Image</label>
 						<input type="file" class="form-control" name="gallery_img[]" accept=".png, .jpg, .jpeg" multiple />

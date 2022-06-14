@@ -50,7 +50,7 @@
                                 <div class="text-center pt-3">
                                    <a class="font-weight-bold" href="{{route('forgotPasswordForm')}}">Forgot Password</a>
                                 </div>
-                            <hr class="my-4">
+                            <!-- <hr class="my-4">
                             <p class="text-center">LOGIN WITH</p>
                             <div class="row">
                                 <div class="col pr-2">
@@ -59,7 +59,7 @@
                                 <div class="col pl-2">
                                     <button class="btn pl-1 pr-1 btn-lg btn-facebook font-weight-normal text-white btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Facebook</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

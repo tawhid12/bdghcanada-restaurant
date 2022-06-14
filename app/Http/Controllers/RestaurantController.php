@@ -12,6 +12,7 @@ use App\Http\Requests\Restaurant\UpdateRestaurantRequest;
 use App\Http\Traits\ResponseTrait;
 use App\Http\Traits\ImageHandleTraits;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Exception;
 use Storage;
 
@@ -72,6 +73,8 @@ class RestaurantController extends Controller
             $resturant->active = $request->active?$request->active:0;
             $resturant->isPromoted = $request->isPromoted?$request->isPromoted:0;
             $resturant->isPopular = $request->isPopular?$request->isPopular:0;
+            $resturant->opening_time = Carbon::parse($request->opening_time)->format('H:i:s');
+            $resturant->closing_time = Carbon::parse($request->closing_time)->format('H:i:s');
             $resturant->available_for_delivery = $request->available_for_delivery?$request->available_for_delivery:0;
             $resturant->save();
 
@@ -165,7 +168,8 @@ class RestaurantController extends Controller
             $resturant->available_for_delivery = $request->available_for_delivery;
             $resturant->isPromoted = $request->isPromoted?$request->isPromoted:0;
             $resturant->isPopular = $request->isPopular?$request->isPopular:0;
-            $resturant->save();
+            $resturant->opening_time = Carbon::parse($request->opening_time)->format('H:i:s');
+            $resturant->closing_time = Carbon::parse($request->closing_time)->format('H:i:s');
             if(!!$resturant->save()){
                 if(currentUser() == 'superadmin')
                 return redirect(route(currentUser().'.allRestaurant'))->with($this->responseMessage(true, null, 'Restaurant Updated'));
