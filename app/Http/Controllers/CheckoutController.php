@@ -126,7 +126,7 @@ class CheckoutController extends Controller
             $cities = City::all();
             $cart=json_decode(base64_decode($order->cart),true);
             //dd($cart);
-            return view('orders',compact('cities','cart','order'));
+            return view('backend.dashboard.customer_dashboard',compact('cities','cart','order'));
         }
 
        
