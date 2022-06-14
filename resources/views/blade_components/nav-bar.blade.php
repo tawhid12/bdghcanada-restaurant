@@ -55,7 +55,7 @@
                         <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
                             <a class="dropdown-item" href="{{route(currentUser().'Dashboard')}}"><i class="icofont-dashboard"></i>
                                 Dashboard</a>
-                            <a class="dropdown-item" href=""><i class="icofont-food-cart"></i>
+                            <!-- <a class="dropdown-item" href=""><i class="icofont-food-cart"></i>
                                 Orders</a>
                             <a class="dropdown-item" href=""><i class="icofont-sale-discount"></i>
                                 Offers</a>
@@ -64,7 +64,7 @@
                             <a class="dropdown-item" href=""><i class="icofont-credit-card"></i>
                                 Payments</a>
                             <a class="dropdown-item" href=""><i class="icofont-location-pin"></i>
-                                Addresses</a>
+                                Addresses</a> -->
                             <a class="dropdown-item" href="{{route('logOut')}}"><i class="icofont-lock"></i>
                                 Logout</a>
                         </div>
