@@ -158,6 +158,7 @@ class RestaurantController extends Controller
             $resturant->information = $request->information;
             $resturant->admin_commission = $request->admin_commission;
             $resturant->delivery_fee = $request->delivery_fee;
+            $resturant->delivery_time = $request->delivery_time;
             $resturant->delivery_range = $request->delivery_range;
             $resturant->closed = $request->closed;
             $resturant->active = $request->active;

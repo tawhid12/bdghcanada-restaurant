@@ -15,13 +15,19 @@
                         <h2 class="text-white">{{$restaurant->name}}</h2>
                         <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{$restaurant->address}} @if($restaurant->closed == 1)<span class="badge badge-danger">CLOSE</span>@else <span class="badge badge-success">OPEN</spa>@endif
                         </p>
-                        <p class="text-white mb-0"><i class="icofont-food-cart"></i> North Indian, Chinese, Fast Food, South Indian
+                        @php
+                        $categories1 = DB::select(DB::raw("SELECT categories.name FROM foods JOIN restaurants on foods.restaurant_id = restaurants.id JOIN categories on foods.category_id = categories.id WHERE restaurants.id=$restaurant->id group by categories.name LIMIT 3"));   
+                        $categories1 = json_decode(json_encode($categories1), true);
+                        $categories1 = array_column($categories1, 'name');       
+                        $delivery_time_slot = array(1 => '15-20 min',2=>'20-30 min',3=> '30-40 min', 4=> '40-50 min');                       
+                        @endphp
+                        <p class="text-white mb-0"><i class="icofont-food-cart"></i> @php echo implode(',',$categories1); @endphp
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="restaurant-detailed-header-right text-right">
-                        <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i>{{$restaurant->delivery_time}} 
+                        <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i>@if(array_key_exists($restaurant->delivery_time,$delivery_time_slot)) {{$delivery_time_slot[$restaurant->delivery_time]}} @endif 
                         </button>
                         <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> 3.1</span> 23 Ratings <i class="ml-3 icofont-speech-comments"></i> 91 reviews</h6>
                     </div>
@@ -50,9 +56,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill" href="#pills-restaurant-info" role="tab" aria-controls="pills-restaurant-info" aria-selected="false">Restaurant Info</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="pills-book-tab" data-toggle="pill" href="#pills-book" role="tab" aria-controls="pills-book" aria-selected="false">Book A Table</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="false">Ratings & Reviews</a>
                     </li>
@@ -69,7 +75,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-order-online" role="tabpanel" aria-labelledby="pills-order-online-tab">
                             <div id="#menu" class="bg-white rounded shadow-sm p-4 mb-4 explore-outlets">
-                                <h5 class="mb-4">Recommended</h5>
+                                <!-- <h5 class="mb-4">Recommended</h5>
                                 <form class="explore-outlets-search mb-4">
                                     <div class="input-group">
                                         <input type="text" placeholder="Search for dishes..." class="form-control">
@@ -79,9 +85,10 @@
                                             </button>
                                         </div>
                                     </div>
-                                </form>
-                                <h6 class="mb-3">Most Popular <span class="badge badge-success"><i class="icofont-tags"></i> 15% Off All Items </span></h6>
+                                </form> -->
+                                <h6 class="mb-3">Most Popular <!--<span class="badge badge-success"><i class="icofont-tags"></i> 15% Off All Items </span>--></h6>
                                 <div class="owl-carousel owl-theme owl-carousel-five offers-interested-carousel mb-3">
+                                    @forelse($popular as $p)
                                     <div class="item">
                                         <div class="mall-category-item">
                                             <a href="#">
@@ -91,54 +98,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid" src="{{asset('')}}assets/img/list/2.png">
-                                                <h6>Sandwiches</h6>
-                                                <small>8 ITEMS</small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid" src="{{asset('')}}assets/img/list/3.png">
-                                                <h6>Soups</h6>
-                                                <small>2 ITEMS</small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid" src="{{asset('')}}assets/img/list/4.png">
-                                                <h6>Pizzas</h6>
-                                                <small>56 ITEMS</small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid" src="{{asset('')}}assets/img/list/5.png">
-                                                <h6>Pastas</h6>
-                                                <small>10 ITEMS</small>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid" src="{{asset('')}}assets/img/list/6.png">
-                                                <h6>Chinese</h6>
-                                                <small>25 ITEMS</small>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @empty
+                                    @endforelse                         
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- <div class="row">
                                 <h5 class="mb-4 mt-3 col-md-12">Best Sellers</h5>
                                 <div class="col-md-4 col-sm-6 mb-4">
                                     <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
@@ -162,57 +126,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-sm-6 mb-4">
-                                    <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                        <div class="list-card-image">
-                                            <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="icofont-heart"></i></a></div>
-                                            <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                            <a href="#">
-                                                <img src="{{asset('')}}assets/img/list/8.png" class="img-fluid item-img">
-                                            </a>
-                                        </div>
-                                        <div class="p-3 position-relative">
-                                            <div class="list-card-body">
-                                                <h6 class="mb-1"><a href="#" class="text-black">Famous Dave's Bar-B
-                                                    </a>
-                                                </h6>
-                                                <p class="text-gray mb-2">Hamburgers • Indian</p>
-                                                <p class="text-gray time mb-0"><a class="btn btn-link btn-sm pl-0 text-black pr-0" href="#">$250 </a> <span class="badge badge-primary">NEW</span> <span class="float-right">
-                                                        <span class="count-number">
-                                                            <button class="btn btn-outline-secondary  btn-sm left dec"> <i class="icofont-minus"></i> </button>
-                                                            <input class="count-number-input" type="text" value="1" readonly="">
-                                                            <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i> </button>
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-6 mb-4">
-                                    <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                        <div class="list-card-image">
-                                            <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i class="icofont-heart"></i></a></div>
-                                            <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                            <a href="#">
-                                                <img src="{{asset('')}}assets/img/list/9.png" class="img-fluid item-img">
-                                            </a>
-                                        </div>
-                                        <div class="p-3 position-relative">
-                                            <div class="list-card-body">
-                                                <h6 class="mb-1"><a href="#" class="text-black">Bite Me Sandwiches</a></h6>
-                                                <p class="text-gray mb-2">North Indian • Indian</p>
-                                                <p class="text-gray time mb-0"><a class="btn btn-link btn-sm pl-0 text-black pr-0" href="#">$250 </a> <span class="badge badge-info">NEW</span> <span class="float-right">
-                                                        <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> -->
                             <div class="row">
                             @forelse($categories as $cat)
                             @if($cat->products->count() >0 )
@@ -732,12 +646,6 @@
                     <a href="{{route('cart')}}" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a>
                 </div>
                 @endif
-                <div class="text-center pt-2 mb-4">
-                    <img class="img-fluid" src="https://dummyimage.com/352x600/ccc/ffffff.png&amp;text=Google+ads">
-                </div>
-                <div class="text-center pt-2">
-                    <img class="img-fluid" src="https://dummyimage.com/352x568/ccc/ffffff.png&amp;text=Google+ads">
-                </div>
             </div>
         </div>
     </div>

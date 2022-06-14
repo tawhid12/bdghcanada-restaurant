@@ -22,6 +22,8 @@ class RestaurantDetailsController extends Controller
         $pids=array_keys((array) session('cart'));
         $products=Food::whereIn('id',$pids);
         $products= $products->get();
-        return view('restaurant-details',compact('restaurant','categories','cities','products','cart'));
+        $popular = Food::where(['restaurant_id' => $id, 'popular' => '1'])->get();
+        /*$best_seller = Food::where(['restaurant_id' => $id, 'best_seller' => '1'])->get();*/
+        return view('restaurant-details',compact('restaurant','categories','cities','products','cart','popular'));
     }
 }

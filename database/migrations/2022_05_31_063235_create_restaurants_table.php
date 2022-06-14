@@ -34,7 +34,7 @@ class CreateRestaurantsTable extends Migration
             $table->tinyInteger('isPopular')->default(0)->nullable();
             $table->time('opening_time')->nullable();
             $table->time('closing_time')->nullable();
-            $table->time('delivery_time')->nullable();
+            $table->tinyInteger('delivery_time')->nullable();
             $table->double('default_tax',8,2)->default(0.00)->nullable();
             $table->tinyInteger('closed')->default(0)->nullable();
             $table->tinyInteger('active')->default(0)->nullable();

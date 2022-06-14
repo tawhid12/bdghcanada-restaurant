@@ -328,15 +328,27 @@
                                     <img src="{{asset('/')}}storage/app/public/images/feature_image/{{$res->feature_image}}" class="img-fluid item-img" loading="lazyload">
                                 </a>
                             </div>
+                            @php
+                                $categories = DB::select(DB::raw("SELECT categories.name FROM foods JOIN restaurants on foods.restaurant_id = restaurants.id JOIN categories on foods.category_id = categories.id WHERE restaurants.id=$res->id group by categories.name LIMIT 3"));   
+                                $categories = json_decode(json_encode($categories), true);
+                                $categories = array_column($categories, 'name');       
+                                $delivery_time_slot = array(1 => '15-20 min',2=>'20-30 min',3=> '30-40 min', 4=> '40-50 min');                       
+                            @endphp
                             <div class="p-3 position-relative">
                                 <div class="list-card-body">
-                                    <h6 class="mb-1"><a href="detail.html" class="text-black"</a>{{$res->name}}</h6>
-                                    <p class="text-gray mb-3">North Indian • American • Pure veg</p>
-                                    <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>{{$res->delivery_time}}</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
+                                    <h6 class="mb-1"><a href="{{route('restaurantDetl',$res->id)}}" class="text-black"</a>{{$res->name}}</h6>
+                                    <p class="text-gray mb-3">@php echo implode(',',$categories); @endphp</p>
+                                    <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>@if(array_key_exists($res->delivery_time,$delivery_time_slot)) {{$delivery_time_slot[$res->delivery_time]}} @endif</span> <span class="float-right text-black-50"> ${{optional($res->food)->price}} @if(optional($res->food)->capacity)For {{$res->food->capacity}} Person @endif</span></p>
                                 </div>
+                                @php 
+                                    $promo_code = \App\Models\Coupon::where('enabled',1)->orderBy('id','desc')->first();
+                                @endphp
+                                @if($promo_code)
                                 <div class="list-card-badge">
-                                    <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
+                                    <span class="badge badge-success">OFFER</span> <small>{{$promo_code->discount}}% off | Use Coupon
+                                    {{$promo_code->id}}</small>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
