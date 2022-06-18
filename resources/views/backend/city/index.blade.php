@@ -1,5 +1,5 @@
 @extends('backend.layout.admin_master')
-@section('title', 'Provience List')
+@section('title', 'City List')
 @section('content')
 <div class="content-wrapper container-xxl p-0">
 
@@ -35,20 +35,22 @@
 										<table class="table table-striped text-center table-bordered datatables-basic table">
 											<thead>
 												<tr>
-													<th>Provience Code</th>
 													<th>Provience Name</th>
+													<th>City Code</th>
+													<th>City Name</th>
 													<th>Status</th>
 													<th>Action</th>
 												</tr>
 											</thead>
 											<tbody>
-												@if(count($allState))
-												@foreach($allState as $state)
+												@if(count($allCity))
+												@foreach($allCity as $city)
 												<tr>
-													<td>{{$state->code}}</td>
-													<td>{{$state->name}}</td>
+													<td>{{$city->state->name}}</td>
+													<td>{{$city->code}}</td>
+													<td>{{$city->name}}</td>
 													<td>
-														@if($state->status == 1)
+														@if($city->status == 1)
 														<span class="badge badge-soft-success">Active</span>
 														@else
 														<span class="badge badge-soft-danger">Inactive</span>
@@ -64,14 +66,14 @@
 																</svg>
 															</button>
 															<div class="dropdown-menu" style="">
-																<a class="dropdown-item" href="{{route(currentUser().'.editState',[Replace($state->name), encryptor('encrypt', $state->id)])}}">
+																<a class="dropdown-item" href="{{route(currentUser().'.editCity',[Replace($city->name), encryptor('encrypt', $city->id)])}}">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50">
 																		<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
 																	</svg>
 																	<span>Edit</span>
 																</a>
 
-																<a class="dropdown-item" onclick="return confirm('Are you sure to delete?')" href="{{route(currentUser().'.deleteState', [Replace($state->name), encryptor('encrypt', $state->id)])}}">
+																<a class="dropdown-item" onclick="return confirm('Are you sure to delete?')" href="{{route(currentUser().'.deleteCity', [Replace($city->name), encryptor('encrypt', $city->id)])}}">
 																	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash me-50">
 																		<polyline points="3 6 5 6 21 6"></polyline>
 																		<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -200,9 +202,9 @@
 					}
 				}
 			});
-			$('div.head-label').html('<h4 class="mb-0">Dashboard</h4><div class="breadcrumb-wrapper"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{{route(currentUser()."Dashboard")}}">{{ encryptor("decrypt", Session::get("username")) }}</a></li><li class="breadcrumb-item"><a href="#">Provience</a></li><li class="breadcrumb-item active">List</li></ol></div>');
+			$('div.head-label').html('<h4 class="mb-0">Dashboard</h4><div class="breadcrumb-wrapper"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{{route(currentUser()."Dashboard")}}">{{ encryptor("decrypt", Session::get("username")) }}</a></li><li class="breadcrumb-item"><a href="#">City</a></li><li class="breadcrumb-item active">List</li></ol></div>');
 
-			$('.card-header').before('<div class="row"><div class="col-xs-12"><a href="{{route(currentUser().".addNewStateForm")}}" class="dt-button create-new btn btn-primary"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus me-50 font-small-4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Add New Provience</span></a></div></div>');
+			$('.card-header').before('<div class="row"><div class="col-xs-12"><a href="{{route(currentUser().".addNewCityForm")}}" class="dt-button create-new btn btn-primary"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus me-50 font-small-4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Add New City</span></a></div></div>');
 
 
 

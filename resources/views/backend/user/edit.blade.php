@@ -1,4 +1,4 @@
-@extends('layout.admin.admin_master')
+@extends('backend.layout.admin_master')
 @push('styles')
 <style>
 /*# sourceMappingURL=app.css.map */
@@ -151,20 +151,6 @@
 								</small>
 								@endif
 							</div>
-							@if(currentUser() == 'owner')
-							<div class="col-lg-4">
-								<label>Branch: <span class="text-danger sup">*</span></label>
-								<select name="branchId"
-									class="form-control select2" required>
-									@if(count($allBranch) > 0)
-									@foreach($allBranch as $branch)
-									<option value="{{ $branch->id }}" @if($user->branchId == $branch->id) selected
-										@endif>{{ $branch->branch_name }}</option>
-									@endforeach
-									@endif
-								</select>
-							</div>
-							@endif
 						</div>
 						<div class="form-group row">
 							<div class="col-lg-4">
@@ -197,12 +183,7 @@
 								</small>
 								@endif
 							</div>
-							<div class="col-lg-4">
-								<label>NID:</label>
-								<input type="text" name="nid" value="{{ $user->details->nid }}" class="form-control"
-									placeholder="NID Number" />
-							</div>
-							
+						
 							<div class="col-md-4">
 								<label>Password <span class="text-danger sup">*</span></label>
 								<div>
@@ -235,42 +216,6 @@
 								@if($errors->has('status'))
 								<small class="d-block text-danger mb-3">
 									{{ $errors->first('status') }}
-								</small>
-								@endif
-							</div>
-							<div class="col-lg-4">
-								<label>Division:</label>
-								<select name="state_id" onchange="get_district(this.value)" class="form-control"
-									required>
-									<option vlaue="">Select Division</option>
-									@if(count($allState) > 0)
-									@foreach($allState as $state)
-									<option value="{{ $state->id }}" @if($user->state_id == $state->id) selected
-										@endif >{{ $state->code.'-'. $state->name}}</option>
-									@endforeach
-									@endif
-								</select>
-								@if($errors->has('state_id'))
-								<small class="d-block text-danger mb-3">
-									Division is required
-								</small>
-								@endif
-							</div>
-							<div class="col-lg-4">
-								<label>District:</label>
-								<select name="zone_id" class="form-control" required>
-									<option vlaue="">Select District</option>
-									@if(count($allZone) > 0)
-									@foreach($allZone as $zone)
-									<option value="{{ $zone->id }}" @if($user->zone_id == $zone->id) selected @endif
-										class="dist dist{{$zone->stateId}}">{{ $zone->code.'-'. $zone->name}}
-									</option>
-									@endforeach
-									@endif
-								</select>
-								@if($errors->has('zone_id'))
-								<small class="d-block text-danger mb-3">
-									District is required
 								</small>
 								@endif
 							</div>

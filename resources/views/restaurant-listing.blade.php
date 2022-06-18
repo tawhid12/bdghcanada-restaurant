@@ -45,7 +45,7 @@
                                     <div class="filters-card-body card-shop-filters">
                                         @forelse($states as $st)
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="cb1"  @if($id == $st->id) checked @endif> 
+                                                <input type="checkbox" class="custom-control-input" id="cb1"  @if(!empty($id) || !empty($state_id) == $st->id) checked @endif> 
                                                 {{--@if($st->restaurants->count()>0)--}}
                                                 <label class="custom-control-label" for="cb1">{{$st->name}} <small class="text-black-50">{{$st->restaurants->count()}}</small>
                                                 </label>

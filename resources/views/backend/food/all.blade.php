@@ -60,8 +60,9 @@
                 											<span class="fw-bolder mb-25"><img src="{{asset('/')}}storage/app/public/images/food/thumbnail/{{$food->thumbnail}}" alt="" class="img-thumbnail thumb-sm mr-1" width="100px"> </span>
                 											</div>
 															<p class="m-0 text-center"><strong> Name: {{$food->name}} </strong></p>
-															<p class="m-0 text-center"><strong> Restaurant Name: {{$food->restaurant_id}} </strong></p>
-															<p class="m-0 text-center"><strong> Category Name: {{$food->category_id}} </strong></p>
+															@php $restaurant = \App\Models\Restaurant::find($food->restaurant_id); @endphp
+															<p class="m-0 text-center"><strong> Restaurant: {{$restaurant->name}} </strong></p>
+															<p class="m-0 text-center"><strong> Category: {{$food->category->name}} </strong></p>
 														</td>
 														<td>
 															<input data-id="{{$food->id}}" class="featured" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $food->featured ? 'checked' : '' }}>
@@ -71,9 +72,9 @@
 														</td>
 														<td>
 															@if($food->active == 1)
-                											<span class="badge rounded-pill badge-light-primary me-1">Active</span>
+                											<span class="badge rounded-pill badge-light-primary me-1">Available</span>
                 											@else
-                											<span class="badge rounded-pill badge-light-danger me-1">Inactive</span>
+                											<span class="badge rounded-pill badge-light-danger me-1">Not Available</span>
                 											@endif
 														</td>
 										            </tr>

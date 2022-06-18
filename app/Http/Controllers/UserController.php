@@ -50,35 +50,15 @@ class UserController extends Controller
 
     public function store(newUserRequest $request){
         try {
-            $userCreator = User::with('role')->find(encryptor('decrypt', $request->userId));
-            $lastCreatedUser = User::max('companyId');
-            $shopcount = User::where('zone_id', explode(',', $request->zone_id)[0])->where('roleId', 7)->count() + 1;
-
             $user = new User;
-            $user->roleId = $request->role;
-            if ($userCreator->role->identity == 'marketingmanager') {
-                if ($request->role == 7)
-                    $user->companyId = $lastCreatedUser + 1;
-            } elseif ($userCreator->role->identity == 'owner' || $userCreator->role->identity == 'salesmanager') {
-                $user->companyId = $userCreator->companyId;
-            }
-            // check if user mentor executive or telemarketer
-            if ($userCreator->role->identity == 'admin')
-                $user->adminId = encryptor('decrypt', $request->userId);
-            elseif ($userCreator->role->identity == 'executive')
-                $user->executiveId = encryptor('decrypt', $request->userId);
-            elseif ($userCreator->role->identity == 'marketingmanager')
-                $user->marketingmanagerId = encryptor('decrypt', $request->userId);
 
             $user->name = $request->fullName;
             $user->email = $request->email;
             $user->mobileNumber = $request->mobileNumber;
-            $user->state_id = $request->state_id;
-            $user->zone_id = explode(',', $request->zone_id)[0];
+            /*$user->state_id = $request->state_id;
+            $user->zone_id = explode(',', $request->zone_id)[0];*/
             $user->password = md5($request->password);
             $user->status = $request->status;
-            if($request->branchId)
-                $user->branchId = $request->branchId;
             $user->userCreatorId = encryptor('decrypt', $request->userId);
             $user->created_at = Carbon::now();
 
@@ -91,14 +71,6 @@ class UserController extends Controller
                 $userd->nid = $request->nid;
                 $userd->save();
 
-                if ($request->role == 7) {
-                    $com = new Company;
-                    $com->shopCode = explode(',', $request->zone_id)[1] . str_pad($shopcount, 5, "0", STR_PAD_LEFT);;
-                    $com->companyId = $user->companyId;
-                    $com->userId = $user->id;
-                    $com->save();
-                    Mail::to($request->email)->send(new TestEmail($com->shopCode, $request->role, $request->mobileNumber));
-                }
                 return redirect(route(currentUser() . '.allUser'))->with($this->responseMessage(true, null, 'User created'));
             }
         } catch (Exception $e) {
@@ -112,42 +84,26 @@ class UserController extends Controller
     {
         $roles = [];
         if (currentUser() == 'superadmin') {
-            $roles = Role::whereIn('identity', ['superadmin', 'admin', 'dataentry'])->get();
-        } elseif (currentUser() == 'admin') {
-            $roles = Role::whereIn('identity', ['executive'])->get();
-        } elseif (currentUser() == 'executive') {
-            $roles = Role::whereIn('identity', ['accountmanager', 'marketingmanager'])->get();
-        } elseif (currentUser() == 'marketingmanager') {
-            $roles = Role::whereIn('identity', ['owner'])->get();
-        } elseif (currentUser() == 'owner') {
-            $roles = Role::whereIn('identity', ['salesmanager'])->get();
-        } elseif (currentUser() == 'salesmanager') {
-            $roles = Role::whereIn('identity', ['salesman'])->get();
-        }
+            $roles = Role::whereIn('identity', ['superadmin', 'owner', 'customer','delivery'])->get();
+        } 
 
         $allState = State::orderBy('name', 'ASC')->get();
-        $allZone = Zone::orderBy('name', 'ASC')->get();
+        $allZone = City::orderBy('name', 'ASC')->get();
         $user = User::find(encryptor('decrypt', $id));
-        $allBranch = Branch::orderBy('branch_name', 'ASC')->get();
-        return view('user.edit', compact(['user', 'roles', 'allState', 'allZone', 'allBranch']));
+        return view('backend.user.edit', compact(['user', 'roles', 'allState', 'allZone']));
     }
 
     public function update(updateUserRequest $request){
         try {
             $user = User::find(encryptor('decrypt', $request->id));
-            if($request->status == '0' && currentUser() == 'superadmin'){
-            $updateuserbycompanyId = User::whereIn('companyId',[$user->companyId])->update(['status' => '0']);
-            }else{
-                $updateuserbycompanyId = User::whereIn('companyId',[$user->companyId])->update(['status' => '1']);
-            }
             $user->roleId = $request->role;
             $user->name = $request->fullName;
             if (currentUser() == 'superadmin') {
                 $user->email = $request->email;
             }
             $user->mobileNumber = $request->mobileNumber;
-            $user->state_id = $request->state_id;
-            $user->zone_id = $request->zone_id;
+            /*$user->state_id = $request->state_id;
+            $user->zone_id = $request->zone_id;*/
             $user->password = $request->password == $user->password ? $user->password : md5($request->password);
             $user->status = $request->status;
             $user->userCreatorId = encryptor('decrypt', $request->userId);

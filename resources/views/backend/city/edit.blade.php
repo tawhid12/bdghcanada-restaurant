@@ -1,10 +1,10 @@
 @extends('backend.layout.admin_master')
-@section('title', 'Edit Provience')
+@section('title', 'Edit City')
 @section('content')
 <div class="card card-custom">
 	<div class="card-header flex-wrap border-0 pt-6 pb-0">
 		<div class="card-title">
-			<h3 class="card-label">Edit Provience
+			<h3 class="card-label">Edit City
 			<span class="d-block text-muted pt-2 font-size-sm"></span></h3>
 			<!--begin::Breadcrumb-->
 			<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
@@ -12,7 +12,7 @@
 					<a href="" class="text-muted">Home</a>
 				</li>
 				<li class="breadcrumb-item">
-					<a href="" class="text-muted">Provience</a>
+					<a href="" class="text-muted">City</a>
 				</li>
 			</ul>
 			<!--end::Breadcrumb-->
@@ -25,30 +25,40 @@
 					<!--begin::Card-->
 					<div class="card card-custom gutter-b example example-compact">
 						<div class="card-header">
-							<h3 class="card-title">Edit Provience</h3>
+							<h3 class="card-title">Edit City</h3>
 						</div>
 						<!--begin::Form-->
-						<form class="form" action="{{ route(currentUser().'.updateState') }}" method="POST" enctype="multipart/form-data">
+						<form class="form" action="{{ route(currentUser().'.updateCity') }}" method="POST" enctype="multipart/form-data">
 							@csrf
-							<input type="hidden" name="id" value="{{ encryptor('encrypt', $state->id) }}">
+							<input type="hidden" name="id" value="{{ encryptor('encrypt', $city->id) }}">
 							<!--begin::Card Body-->
 						<div class="card-body">
 							<div class="form-group row">
-							<div class="col-lg-6">
-									<label class="control-label">Division Code</label>
-									<input type="text" name="stateCode" value="{{ $state->code }}" class="form-control @if($errors->has('stateCode')) {{ 'is-invalid' }} @endif" placeholder="Division Code" />
-									@if($errors->has('stateCode'))
+								<div class="col-lg-4">
+									<label class="control-label">Select Provience</label>
+									<select name="stateId" class="form-control">
+										<option value="">--Select--</option>
+										@forelse($states as $state)
+										<option value="{{$state->id}}" @if($city->stateId == $state->id) selected @endif>{{$state->name}}</option>
+										@empty
+										@endforelse
+									</select>
+								</div>
+								<div class="col-lg-4">
+									<label class="control-label">City Code</label>
+									<input type="text" name="code" value="{{ $city->code }}" class="form-control @if($errors->has('code')) {{ 'is-invalid' }} @endif" placeholder="City Code" />
+									@if($errors->has('code'))
 										<small class="d-block text-danger mb-3">
-											{{ $errors->first('stateCode') }}
+											{{ $errors->first('code') }}
 										</small>
 									@endif
 								</div>
-								<div class="col-lg-6">
-									<label class="control-label">Division Name</label>
-									<input type="text" name="stateName" value="{{ $state->name }}" class="form-control @if($errors->has('stateName')) {{ 'is-invalid' }} @endif" placeholder="Division Name" />
-									@if($errors->has('stateName'))
+								<div class="col-lg-4">
+									<label class="control-label">City Name</label>
+									<input type="text" name="name" value="{{ $city->name }}" class="form-control @if($errors->has('name')) {{ 'is-invalid' }} @endif" placeholder="City Name" />
+									@if($errors->has('name'))
 										<small class="d-block text-danger mb-3">
-											{{ $errors->first('stateName') }}
+											{{ $errors->first('name') }}
 										</small>
 									@endif
 								</div>

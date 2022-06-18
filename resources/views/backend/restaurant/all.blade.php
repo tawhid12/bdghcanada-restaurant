@@ -88,6 +88,7 @@
 															<p class="m-0 text-center">Longitude:-{{$res->latitude}}</p>
 															<p class="m-0 text-center">Latitude:-{{$res->longitude}}</p>
 															<p class="m-0 text-center"><strong>Phone:- {{$res->phone}}<br>Mobile: {{$res->mobile}}</strong></p>
+															<p class="m-0 text-center">Delivery Fee:-{{$res->delivery_fee}}  Delivery Range:-{{$res->delivery_range}}km Commission:-{{$res->admin_commission}}km</p>
 														</td>
 														<td>
 															<input data-id="{{$res->id}}" class="isPromoted" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $res->isPromoted ? 'checked' : '' }}>
@@ -108,7 +109,7 @@
 															$end = Carbon\Carbon::parse($res->closing_time);
 															@endphp
 															@if ($now->between($start, $end)) 
-																<span class="badge rounded-pill badge-light-danger me-1">Open</span>
+																<span class="badge rounded-pill badge-light-success me-1">Open</span>
 															@else
 																<span class="badge rounded-pill badge-light-danger me-1">Close</span>
 															@endif

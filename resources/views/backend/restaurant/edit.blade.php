@@ -120,7 +120,6 @@
 					<div class="col-lg-4 mb-1">
 						<label> Phone: </label>
 						<input type="text" name="phone" class="form-control" value="{{ old('phone', $restaurant->phone) }}" />
-
 					</div>
 					<div class="col-lg-4 mb-1">
 						<label> Mobile: </label>
@@ -128,6 +127,7 @@
 					</div>
 				</div>
 				<div class="form-group row">
+					@if(currentUser() =='owner')
 					<div class="col-lg-2">
 						<div class="mb-1">
 							<div class="form-check">
@@ -136,6 +136,7 @@
 							</div>
 						</div>
 					</div>
+					@endif
 					<!-- <div class="col-lg-2">
 						<div class="mb-1">
 							<div class="form-check">
@@ -171,6 +172,26 @@
 					</div>
 					@endif
 				</div>
+				@if(currentUser() =='superadmin')
+				<div class="form-group row">
+					<div class="col-lg-4 mb-1">
+						<label> Delivery Fee: </label>
+						<input type="text" name="delivery_fee" class="form-control" value="{{ old('delivery_fee', $restaurant->delivery_fee) }}" />
+					</div>
+					<div class="col-lg-4 mb-1">
+						<label> Delivery Range: </label>
+						<input type="text" name="delivery_range" class="form-control" value="{{ old('delivery_range', $restaurant->delivery_range) }}" />
+					</div>
+					<div class="col-lg-4 mb-1">
+						<label> Admin Commission: </label>
+						<div class="input-group input-group-merge">
+							<input type="text" class="form-control" name="admin_commission" class="form-control" value="{{ old('admin_commission', $restaurant->admin_commission) }}" placeholder="10" aria-label="Amount (Percentage)">
+							<span class="input-group-text">%</span>
+						</div>
+						<p class="text-muted">Commission in Percentage</p>
+					</div>
+				</div>
+				@endif
 				<div class="form-group row">
 					<div class="col-lg-4 mb-1">
 						<label> Opening Time: </label>

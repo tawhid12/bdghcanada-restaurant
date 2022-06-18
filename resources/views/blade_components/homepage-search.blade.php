@@ -10,9 +10,28 @@
                             bars in Torento, based on trends</h5>
                     </div>
                     <div class="homepage-search-form">
-                        <form class="form-noborder">
+                        <form class="form-noborder"  action="{{route('restaurant.search')}}">
+                            @csrf
                             <div class="form-row">
-                                <div class="col-lg-3 col-md-3 col-sm-12 form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+                                    <select class="custom-select form-control-lg" name="state_id">
+                                        <option value="">Select Provience</option>
+                                        @forelse($states as $state)
+                                        <option value="{{$state->id}}">{{$state->name}}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+                                    <select class="custom-select form-control-lg" name="city_id">
+                                        <option value="">Select City</option>
+                                        @forelse($cities as $city)
+                                        <option value="{{$city->id}}">{{$city->name}}</option>
+                                        @empty
+                                        @endforelse
+                                    </select>
+                                </div>
+                                <!-- <div class="col-lg-3 col-md-3 col-sm-12 form-group">
                                     <div class="location-dropdown">
                                         <i class="icofont-location-arrow"></i>
                                         <select class="custom-select form-control-lg">
@@ -29,10 +48,10 @@
                                     <input type="text" placeholder="Enter your delivery location"
                                         class="form-control form-control-lg">
                                     <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-2 col-md-2 col-sm-12 form-group">
-                                    <a href="listing.html"
-                                        class="btn btn-primary btn-block btn-lg btn-gradient">Search</a>
+                                    <button type="submit"
+                                        class="btn btn-primary btn-block btn-lg btn-gradient">Search</button>
 
                                 </div>
                             </div>

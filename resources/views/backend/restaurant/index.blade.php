@@ -30,7 +30,7 @@
 							<h4 class="card-title">
 								All Restaurant List Here...
 							</h4>
-							@if(count($restaurant) == 1)
+							@if(count($restaurant) < 1)
 							<div class="d-flex justify-content-end">
 								<a href="{{route(currentUser().'.info.create')}}" class="btn btn-primary font-weight-bolder  waves-effect waves-float waves-light">
 									<i class="la la-list"></i>New Restaurant

@@ -101,7 +101,7 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         Route::post('/changeAcc', [UserController::class,'changeAcc'])->name('superadmin.changeAcc');
 
     Route::prefix('state')->group(function () {
-        Route::get('/all', [StateController::class,'classindex'])->name('superadmin.allState');
+        Route::get('/all', [StateController::class,'index'])->name('superadmin.allState');
         Route::get('/add',  [StateController::class,'addForm'])->name('superadmin.addNewStateForm');
         Route::post('/add',  [StateController::class,'store'])->name('superadmin.addNewState');
         Route::get('/edit/{name}/{id}',  [StateController::class,'editForm'])->name('superadmin.editState');
@@ -200,6 +200,7 @@ Route::group(['middleware' => 'isCustomer'], function(){
     
 });
 Route::get('/', [FrontController::class,'index'])->name('home');
+Route::get('/restaurant-search', [FrontController::class,'search'])->name('restaurant.search');
 Route::get('/restaurant-listing/near', [RestraurantListingController::class,'nearestRestaurant'])->name('nearestRestaurant');
 Route::get('/restaurant-listing/{id}', [RestraurantListingController::class,'index'])->name('restaurantlisting');
 Route::get('/restaurant-details/{id}', [RestaurantDetailsController::class,'index'])->name('restaurantDetl');

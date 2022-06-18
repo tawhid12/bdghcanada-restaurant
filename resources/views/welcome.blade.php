@@ -5,7 +5,7 @@
     <!-- top Homepage Search -->
     @include('blade_components.homepage-search')
     <!-- Popular Brand -->
-    @include('blade_components.states')
+    {{--@include('blade_components.states')--}}
     <!-- top Homepage Search -->
     @include('blade_components.homepage-add-section')
     <!-- Popular Brand -->

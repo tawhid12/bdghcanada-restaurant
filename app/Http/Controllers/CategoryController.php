@@ -59,7 +59,7 @@ class CategoryController extends Controller
 
             $category->name = $request->categoryName;
             $category->status = $request->status;
-            $category->userId = encryptor('decrypt', $request->userId);
+            $category->user_id = encryptor('decrypt', $request->userId);
             $category->updated_at = Carbon::now();
 
             if(!!$category->save()) return redirect(route(currentUser().'.allCategory'))->with($this->responseMessage(true, null, 'Category updated'));

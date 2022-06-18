@@ -21,7 +21,7 @@ class StateController extends Controller
     public function index()
     {
         $allState = State::orderBy('id', 'DESC')->paginate(25);
-        return view('state.index', compact('allState'));
+        return view('backend.state.index', compact('allState'));
     }
 
     /**
@@ -31,7 +31,7 @@ class StateController extends Controller
      */
     public function addForm()
     {
-        return view('state.add_new');
+        return view('backend.state.add_new');
     }
     /**
      * Store a newly created resource in storage.
@@ -47,7 +47,7 @@ class StateController extends Controller
             $state->name = $request->stateName;
             $state->created_at = Carbon::now();
 
-            if(!!$state->save()) return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Division created'));
+            if(!!$state->save()) return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Provience created'));
 
         } catch (Exception $e) {
             dd($e);
@@ -65,7 +65,7 @@ class StateController extends Controller
     public function editForm($name, $id)
     {
         $state = State::find(encryptor('decrypt', $id));
-        return view('state.edit', compact(['state']));
+        return view('backend.state.edit', compact(['state']));
     }
 
     /**
@@ -83,7 +83,7 @@ class StateController extends Controller
             $state->name = $request->stateName;
             $state->updated_at = Carbon::now();
 
-            if(!!$state->save()) return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Division updated'));
+            if(!!$state->save()) return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Provience updated'));
 
         } catch (Exception $e) {
             dd($e);
@@ -96,7 +96,7 @@ class StateController extends Controller
         try {
             $state = State::find(encryptor('decrypt', $id));
             if(!!$state->delete())
-                return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Division deleted'));
+                return redirect(route(currentUser().'.allState'))->with($this->responseMessage(true, null, 'Provience deleted'));
                 
         }catch (Exception $e) {
             dd($e);

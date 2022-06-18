@@ -38,14 +38,14 @@
 						<h4 class="card-title">
 							All Users List Here...
 						</h4>
-						<div class="d-flex justify-content-end">
+						<!-- <div class="d-flex justify-content-end">
 
 							<a href="{{route(currentUser().'.addNewUserForm')}}"
 								class="btn btn-primary font-weight-bolder  waves-effect waves-float waves-light">
 								<i class="la la-list"></i>Create User</a>
 
 
-						</div>
+						</div> -->
 
 
 					</div>
