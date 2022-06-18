@@ -30,11 +30,13 @@
 							<h4 class="card-title">
 								All Restaurant List Here...
 							</h4>
+							@if(count($restaurant) == 1)
 							<div class="d-flex justify-content-end">
 								<a href="{{route(currentUser().'.info.create')}}" class="btn btn-primary font-weight-bolder  waves-effect waves-float waves-light">
 									<i class="la la-list"></i>New Restaurant
 								</a>
 							</div>
+							@endif
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -45,13 +47,7 @@
 												<thead>
 													<tr>
 														<th>SL.</th>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Address</th>
-														<th>latitude</th>
-														<th>longitude</th>
-														<th>Contact</th>
-														<th>Other</th>
+														<th>Restaurant Information</th>
 														<th>Restaurant Status</th>
 														<th>Active</th>
 														<th>Action</th>
@@ -63,13 +59,12 @@
 													@foreach($restaurant as $index => $res)
 													<tr role="row">
 														<td>{{++$index}}</td>
-														<td>{{$res->name}}</td>
-														<td>{{$res->description}}</td>
-														<td>{{$res->address}}</td>
-														<td>{{$res->latitude}}</td>
-														<td>{{$res->longitude}}</td>
-														<td>{{$res->phone}}<br>{{$res->mobile}}</td>
-														<td>{{$res->information}}</td>
+														<td>
+															<p class="m-0 text-center"><strong> Name: {{$res->name}} </strong></p>
+															<p class="m-0 text-center"><strong> Address: {{$res->address}} </strong></p>
+															<p class="m-0 text-center"><strong> Latitude: {{$res->latitude}} | Longitude: {{$res->longitude}}</strong></p>
+															<p class="m-0 text-center"><strong> Phone: {{$res->phone}} | Mobile: {{$res->mobile}}</strong></p>
+														</td>
 														<td>
 															@if($res->available_for_delivery == 1)
                 											<span class="badge rounded-pill badge-light-primary me-1">Delivery Open</span>
@@ -77,11 +72,16 @@
                 											<span class="badge rounded-pill badge-light-danger me-1">Delivery Close</span>
                 											@endif
 															<br>
-															@if($res->closed == 1)
+															@php
+															$now = Carbon\Carbon::now();
+															$start = Carbon\Carbon::parse($res->opening_time);
+															$end = Carbon\Carbon::parse($res->closing_time);
+															@endphp
+															@if ($now->between($start, $end)) 
+																<span class="badge rounded-pill badge-light-danger me-1">Open</span>
+															@else
 															<span class="badge rounded-pill badge-light-danger me-1">Close</span>
-                											@else
-                											<span class="badge rounded-pill badge-light-primary me-1">Open</span>
-                											@endif
+															@endif
 														</td>
 														<td>
 														@if($res->active == 1)

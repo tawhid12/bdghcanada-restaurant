@@ -74,9 +74,13 @@
             </small> -->
         </div>
     </footer>
-<!-- 
-    <script src="{{asset('')}}assets/vendor/jquery/jquery-3.3.1.slim.min.js" type="text/javascript"></script> -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- <script src="{{asset('')}}assets/vendor/jquery/jquery-3.3.1.slim.min.js" type="text/javascript"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" 
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{asset('')}}assets/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

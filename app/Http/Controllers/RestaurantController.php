@@ -147,7 +147,9 @@ class RestaurantController extends Controller
         //dd($request);die;
         try {
             $resturant = Restaurant::find($id);
+            if(!currentUser() == 'superadmin'){
             $resturant->user_id =  encryptor('decrypt', request()->session()->get('user'));
+            }
             $resturant->state_id = $request->state_id;
             $resturant->city_id = $request->city_id;
             $resturant->name = $request->name;
@@ -164,10 +166,12 @@ class RestaurantController extends Controller
             $resturant->delivery_time = $request->delivery_time;
             $resturant->delivery_range = $request->delivery_range;
             $resturant->closed = $request->closed;
-            $resturant->active = $request->active;
             $resturant->available_for_delivery = $request->available_for_delivery;
+            if(currentUser() == 'superadmin'){
+            $resturant->active = $request->active;
             $resturant->isPromoted = $request->isPromoted?$request->isPromoted:0;
             $resturant->isPopular = $request->isPopular?$request->isPopular:0;
+            }
             $resturant->opening_time = Carbon::parse($request->opening_time)->format('H:i:s');
             $resturant->closing_time = Carbon::parse($request->closing_time)->format('H:i:s');
             if(!!$resturant->save()){

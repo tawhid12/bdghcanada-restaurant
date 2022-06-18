@@ -1,4 +1,4 @@
-@extends('layout.admin.admin_master')
+@extends('backend.layout.admin_master')
 @push('styles')
 <style>
 /*# sourceMappingURL=app.css.map */
@@ -90,7 +90,7 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title">Edit User</h4>
+					<h4 class="card-title">Add User</h4>
 				</div>
 				<div class="card-body">
 					<form class="form" action="{{ route(currentUser().'.addNewUser') }}" method="POST" enctype="multipart/form-data">
@@ -157,8 +157,6 @@
 								</select>
 							</div>
 							@endif
-						</div>
-						<div class="form-group row">
 							<div class="col-lg-4">
 								<label>Email: <span class="text-danger sup">*</span></label>
 								<div class="input-group">
@@ -184,13 +182,6 @@
 								</small>
 								@endif
 							</div>
-							<div class="col-lg-4">
-								<label>NID:</label>
-								<input type="text" name="nid" value="{{  old('details->nid') }}" class="form-control"
-									placeholder="NID Number" />
-							</div>
-						</div>
-						<div class="form-group row">
 							<div class="col-md-4">
 								<label>Password <span class="text-danger sup">*</span></label>
 								<div>
@@ -227,10 +218,10 @@
 								@endif
 							</div>
 							<div class="col-lg-4">
-								<label>Division:</label>
+								<label>Provience:</label>
 								<select name="state_id" onchange="get_district(this.value)" class="form-control"
 									required>
-									<option vlaue="">Select Division</option>
+									<option vlaue="">Select Provience</option>
 									@if(count($allState) > 0)
 									@foreach($allState as $state)
 									<option value="{{ $state->id }}">{{ $state->code.'-'. $state->name}}</option>
@@ -244,7 +235,7 @@
 								@endif
 							</div>
 							<div class="col-lg-4">
-								<label>District:</label>
+								<label>State:</label>
 								<select name="zone_id" class="form-control" required>
 									<option vlaue="">Select District</option>
 									@if(count($allZone) > 0)

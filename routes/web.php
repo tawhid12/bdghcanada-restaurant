@@ -64,7 +64,9 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         Route::get('/dashboard', [DashboardController::class,'index'])->name('superadminDashboard');
 
         /*====Restaurant==*/
-        //Route::resource('/info',RestaurantController::class,['as' => 'superadmin']);
+        Route::resource('/info',RestaurantController::class,['as' => 'superadmin']);
+        Route::get('/getCity/{id}',[RestaurantController::class,'getCity'])->name('superadmin.getCity');
+
         /*====Restaurant Gallery==*/
         //Route::resource('/gallery',GalleryController::class,['as' => 'superadmin']);
         Route::get('/all/restaurant',[RestaurantController::class,'allRestaurant'])->name('superadmin.allRestaurant');
@@ -78,6 +80,8 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
 
         /*===Cupon===*/
         Route::resource('/coupon',CouponController::class,['as' => 'superadmin']);
+
+
 
     });
    
@@ -221,7 +225,8 @@ Route::group(['middleware' => 'isDeliveryBoy'], function(){
     Route::get('/updatecart', [CartController::class, 'updateCart'])->name('front.updateCart');
     Route::get('/removecart', [CartController::class, 'removeCart'])->name('front.removeCart');
 /*=============== cart ===================*/
-
+/*=============== Promo code ============ */
+Route::get('/promocode', [CheckoutController::class,'promoCode'])->name('front.promoCode');
 /*Route::get('/', function () {
     return view('welcome');
 });*/

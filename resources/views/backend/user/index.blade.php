@@ -75,15 +75,10 @@
 													</td>
 													<td>
 														<div class="d-flex align-items-start flex-column text-start">
-														    <div><span class="fw-bolder">Shop Code:</span><span> </div>
 															<div><span class="fw-bolder">Name:</span><span> {{$user->name}}</div>
 															<div><span class="fw-bolder">Phone:</span><span> {{$user->mobileNumber}}</div>
 															<div><span class="fw-bolder">Email:</span><span> {{$user->email}}</div>
-															<div><span class="fw-bolder">Name:</span><span> {{$user->role->type}}</div>
-															<div><span class="fw-bolder">Division:</span><span> @if($user->state){{$user->state->name}}
-															<div><span class="fw-bolder">District:</span><span> @if($user->zone){{$user->zone->name}}
-																@endif
-																@endif</div>
+															<div><span class="fw-bolder">Role:</span><span> {{$user->role->type}}</div>
 															<div>
 															    <span class="fw-bolder">Status:</span>
 															    	@if($user->status == 1)

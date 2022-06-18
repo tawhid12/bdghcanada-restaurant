@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Food;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use View;
 class CartController extends Controller
@@ -48,24 +49,38 @@ class CartController extends Controller
         $id=$r->id;
         
         $product = Food::findOrFail($id);
-        $msg="<b>Congratulation!</b> Product added to cart.";
+        $msg="Congratulation! Product added to cart.";
         $type="";
         $cart = session()->get('cart', []);
 
-     
-      
         $restaurant_id = array_keys(array_combine(array_keys($cart), array_column($cart, 'restaurant_id')),$r->restaurant_id);
         if(!$restaurant_id && !empty($cart)){
             unset($cart);
         }
                         
-
-
-
-
             if(isset($cart[$id])) {
-                $cart[$id]['quantity']+=$r->quantity;
+                if($r->op == 'inc')
+                {
+                    $type=1;
+                    $msg="Congratulation! Product added to cart.";
+                    $cart[$id]['quantity']+=$r->quantity;
+                }
+                else{
+                    if($cart[$id]['quantity'] == $r->quantity)
+                    {
+                        $type=2;
+                        $msg="Minimum Quantity 1";
+                        $cart[$id]['quantity']=1;
+                    }
+                    else{
+                        $type=2;
+                        $msg="Quantity Removed from cart";
+                        $cart[$id]['quantity']-=$r->quantity;
+                    }
+                    
+                }
             }else{
+                $type=1;
                     if($r->quantity!=0){
                         $price=$product->price;
                         $discount_amount=0;
@@ -76,7 +91,7 @@ class CartController extends Controller
                             $discount_amount=($product->price * ($product->discount_price/100));
                             $price=($product->price - ($product->price * ($product->discount_price/100)));
                         }
-                        
+                        $charge = Restaurant::find($product->restaurant_id);
                     $cart[$id] = [
                         "restaurant_id" => $product->restaurant_id,
                         "name" => $product->name,
@@ -84,7 +99,8 @@ class CartController extends Controller
                         "price" => $product->price,
                         "dis_price" => $price,
                         "discount" => $discount_amount,
-                        "image" => $product->feature_image
+                        "delivery_charge" => $charge->delivery_fee,
+                        "image" => $product->thumbnail
                     ];
                 
                     
@@ -93,7 +109,7 @@ class CartController extends Controller
             }
      
         session()->put('cart', $cart);
-        return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$product->restaurant_id),'data' => $restaurant_id), 200);
+        return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'cart' => $cart), 200);
     }
 
     /**
@@ -169,22 +185,17 @@ class CartController extends Controller
             if(isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
-
                 $cart = session()->get('cart', []);
-                $pids=array_keys((array) session('cart'));
-                $products=Food::whereIn('id',$pids)->get();
-                $url = route('restaurantDetl',$request->restaurant_id);
                 $type="success";
-                $msg="<b>Congratulation!</b> Product deleted from cart.";
-                return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
-
+                $msg="Congratulation! Product deleted from cart.";
+                return response()->json(array("total_product" => count((array) session('cart')),"msg"=> $msg,'type'=>$type,'cart' => $cart), 200);
             }else{
                 $msg="<b>Sorry</b>! This product is not available in your cart.";
-                return response()->json(array("msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
+                return response()->json(array("msg"=> $msg,'type'=>$type,'cart' => $cart), 200);
             }
         }else{
                 $msg="<b>Sorry</b>! Something is wrong? Please try again";
-                return response()->json(array("msg"=> $msg,'type'=>$type,'url' => route('restaurantDetl',$request->restaurant_id)), 200);
+                return response()->json(array("msg"=> $msg,'type'=>$type), 200);
         }
 
     }

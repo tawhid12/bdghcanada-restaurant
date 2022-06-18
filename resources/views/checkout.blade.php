@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @push('styles')
-<link rel="stylesheet" type="text/css" href="{{asset('/')}}backend/assets/vendors/css/extensions/toastr.min.css">
-<link rel="stylesheet" type="text/css" href="{{asset('/')}}backend/assets/css/plugins/extensions/ext-component-toastr.min.css">
+
 @endpush
 @section('content')
 <!-- top nav bar -->
@@ -10,7 +9,9 @@
     $total=0;
     $t_discount=0;
     $t_vat=0;
+    $pro_dis = 0;
     //print_r(session()->get('cart'));
+    $pro_dis += session()->get('promo_code');
     @endphp
     @if(count((array) session('cart')))
     @foreach($cart as $c)
@@ -19,6 +20,7 @@
     $t_discount+=$c['quantity'] * $c['discount'];
     @endphp
     @endforeach
+    
 @endif
 <section class="offer-dedicated-body mt-4 mb-4 pt-2 pb-2">
     <div class="container">
@@ -122,8 +124,11 @@
                                     </div>
                                 </div>
                             </div>
-                        
                         @empty
+                        <div class="col-md-12">
+                        <input type="hidden" name="delivery_address_id" id="delivery_address_id">
+                        <small class="d-block text-danger mb-3">Add Delivery Address First</small>
+                        </div>
                         @endforelse
                             <div class="col-md-6">
                                 <p class="mb-0 text-black font-weight-bold"><a data-toggle="modal" data-target="#add-address-modal" class="btn btn-sm btn-primary mr-2" href="#"> ADD NEW ADDRESS</a></p>
@@ -300,7 +305,7 @@
                                         <h6 class="mb-3 mt-0 mb-3">Cash</h6>
                                         <p>Please keep exact change handy to help us serve you better</p>
                                         <hr>
-                                            <button type="submit" class="btn btn-success btn-block btn-lg"><i class="icofont-long-arrow-right"></i>PAY ${{number_format($total-$t_discount,2)}}</button>
+                                            <button type="submit" class="btn btn-success btn-block btn-lg"><i class="icofont-long-arrow-right"></i>PAY ${{number_format($total-$t_discount+$charge->delivery_fee-$pro_dis,2)}}</button>
                                        
                                     </div>
                                 </div>
@@ -346,32 +351,37 @@
                         @endforeach
                         @endif
                     </div>
+                    @php
+                    //print_r(session()->get('promo_code'));
+                    @endphp
+                    @if(!session()->get('promo_code'))
                     <div class="mb-2 bg-white rounded p-2 clearfix">
                         <div class="input-group input-group-sm mb-2">
-                            <input type="text" class="form-control" placeholder="Enter promo code">
+                            <input type="text" class="promo-code form-control" placeholder="Enter promo code">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button" id="button-addon2"><i class="icofont-sale-discount"></i> APPLY</button>
                             </div>
                         </div>
-                        <div class="input-group mb-0">
+                        <!-- <div class="input-group mb-0">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="icofont-comment"></i></span>
                             </div>
                             <textarea class="form-control" placeholder="Any suggestions? We will pass it on..." aria-label="With textarea"></textarea>
-                        </div>
+                        </div> -->
                     </div>
+                    @endif
                     <div class="mb-2 bg-white rounded p-2 clearfix">
                         <p class="mb-1">Item Total <span class="float-right text-dark">${{number_format($total,2)}}</span></p>
-                        <p class="mb-1">Restaurant Charges <span class="float-right text-dark">$62.8</span></p>
+                        <!-- <p class="mb-1">Restaurant Charges <span class="float-right text-dark">$62.8</span></p> -->
                         <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
                                 <i class="icofont-info-circle"></i>
-                            </span> <span class="float-right text-dark">$10</span>
+                            </span> <span class="float-right text-dark">${{$charge->delivery_fee}}</span>
                         </p>
                         <p class="mb-1 text-success">Total Discount
-                            <span class="float-right text-success">${{number_format($t_discount,2)}}</span>
+                            <span class="float-right text-success">${{number_format($t_discount+$pro_dis,2)}}</span>
                         </p>
                         <hr />
-                        <h6 class="font-weight-bold mb-0">TO PAY <span class="float-right">${{number_format($total-$t_discount,2)}}</span></h6>
+                        <h6 class="font-weight-bold mb-0">TO PAY <span class="float-right">${{number_format($total-$t_discount+$charge->delivery_fee-$pro_dis,2)}}</span></h6>
                     </div>
                     <!-- <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY ${{number_format($total-$t_discount,2)}}
                         <i class="icofont-long-arrow-right"></i></a> -->
@@ -379,7 +389,7 @@
                 </div>
                 <div class="pt-2"></div>
                 <div class="alert alert-success" role="alert">
-                    You have saved <strong>${{number_format($t_discount,2)}}</strong> on the bill
+                    You have saved <strong>${{number_format($t_discount+$pro_dis,2)}}</strong> on the bill
                 </div>
                 <!-- <div class="pt-2"></div>
                 <div class="text-center pt-2">
@@ -454,7 +464,7 @@
 @include('blade_components.newsletter')
 @endsection
 @push('scripts')
-<script src="{{asset('/')}}backend/assets/vendors/js/extensions/toastr.min.js"></script>
+
 <script>
 @if( Session::has('response') )
     toastr.options =
@@ -465,8 +475,33 @@
   		toastr.{{Session::get('response')['class']}}("{{Session::get('response')['message']}}");
     @endif
 
-	
-
-
+	$(document).ready(function(){
+        var type = '';
+        $('#button-addon2').on('click',function(){
+            var code = $('.promo-code').val();
+            $.ajax({
+                dataType: "json",
+                url: '{{ route('front.promoCode') }}',
+                method: "get",
+                data: {
+                    code: code, 
+                },
+                success: function (response) {
+                console.log(response);
+                type= response.type;
+                toastr.options =
+                {
+                    "closeButton" : true,
+                    "progressBar" : true
+                }
+                if(type == 1)
+                    toastr.success(response.msg);
+                else
+                toastr.error(response.msg);
+                location.reload();
+                }
+        });
+    });
+});
 </script>
 @endpush

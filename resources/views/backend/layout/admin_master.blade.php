@@ -162,6 +162,22 @@
                 <span class="menu-title text-truncate" data-i18n="Customer">All Cupon</span>
               </a>
             </li>
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Provience and City</span>
+              <li class="nav-item {{menuActive(currentUser().'.allState')}}">
+                <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allState')}} @endif">
+                  <i data-feather="map-pin"></i>
+                  <span class="menu-title text-truncate" data-i18n="Customer">All States</span>
+                </a>
+              </li>
+              <li class="nav-item {{menuActive(currentUser().'.allCity')}}">
+                <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allCity')}} @endif">
+                  <i data-feather="map"></i>
+                  <span class="menu-title text-truncate" data-i18n="Customer">All Cities</span>
+                </a>
+              </li>
+            </li>
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Company Profile | Settings</span>
+            </li>
           @endif
 
 

@@ -1,9 +1,8 @@
 @extends('layouts.master')
 @section('title', 'Customer | Dashboard')
-@push('styles')
 
-@endpush
 @section('content')
+
 <!-- top nav bar -->
 @include('blade_components.nav-bar')
 
@@ -389,18 +388,14 @@
 </div>
 @endsection
 @push('scripts')
-<script src="{{asset('/')}}backend/assets/vendors/js/extensions/toastr.min.js"></script>
+
 <script>
     @if(Session::has('response'))
     toastr.options = {
         "closeButton": true,
         "progressBar": true
     }
-    toastr. {
-        {
-            Session::get('response')['class']
-        }
-    }("{{Session::get('response')['message']}}");
+    toastr. {{Session::get('response')['class']}}("{{Session::get('response')['message']}}");
     @endif
 </script>
 @endpush

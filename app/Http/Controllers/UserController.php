@@ -14,10 +14,8 @@ use App\Models\Role;
 use App\Models\UserDetail;
 use App\Models\User;
 
-use App\Models\Branch;
-use App\Models\Company;
 use App\Models\State;
-use App\Models\Zone;
+use App\Models\City;
 
 use Exception;
 use Carbon\Carbon;
@@ -42,23 +40,12 @@ class UserController extends Controller
     {
         $roles = [];
         if (currentUser() == 'superadmin') {
-            $roles = Role::whereIn('identity', ['superadmin', 'admin', 'dataentry'])->get();
-        } elseif (currentUser() == 'admin') {
-            $roles = Role::whereIn('identity', ['executive'])->get();
-        } elseif (currentUser() == 'executive') {
-            $roles = Role::whereIn('identity', ['accountmanager', 'marketingmanager'])->get();
-        } elseif (currentUser() == 'marketingmanager') {
-            $roles = Role::whereIn('identity', ['owner'])->get();
-        } elseif (currentUser() == 'owner') {
-            $roles = Role::whereIn('identity', ['salesmanager'])->get();
-        } elseif (currentUser() == 'salesmanager') {
-            $roles = Role::whereIn('identity', ['salesman'])->get();
-        }
+            $roles = Role::whereIn('identity', ['superadmin', 'owner', 'customer','delivery'])->get();
+        } 
 
         $allState = State::orderBy('name', 'ASC')->get();
-        $allZone = Zone::orderBy('name', 'ASC')->get();
-        $allBranch = Branch::where('companyId',company()['companyId'])->orderBy('branch_name', 'ASC')->get();
-        return view('user.add_new', compact(['roles', 'allState', 'allZone', 'allBranch']));
+        $allZone = City::orderBy('name', 'ASC')->get();
+        return view('backend.user.add_new', compact(['roles', 'allState', 'allZone']));
     }
 
     public function store(newUserRequest $request){

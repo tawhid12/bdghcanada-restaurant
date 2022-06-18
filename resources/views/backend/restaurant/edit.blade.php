@@ -136,14 +136,15 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-2">
+					<!-- <div class="col-lg-2">
 						<div class="mb-1">
 							<div class="form-check">
 								<input type="checkbox" class="form-check-input" id="closed" name="closed" {{  ($restaurant->closed == 1 ? ' checked' : '') }}>
 								<label class="form-check-label" for="closed">Is Closed</label>
 							</div>
 						</div>
-					</div>
+					</div> -->
+					@if(currentUser() =='superadmin')
 					<div class="col-lg-2">
 						<div class="mb-1">
 							<div class="form-check">
@@ -168,6 +169,7 @@
 							</div>
 						</div>
 					</div>
+					@endif
 				</div>
 				<div class="form-group row">
 					<div class="col-lg-4 mb-1">

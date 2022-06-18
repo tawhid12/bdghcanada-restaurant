@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 use App\Http\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use App\Models\Restaurant;
 use App\Models\Food;
 use App\Models\City;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Payment;
 
@@ -19,10 +21,11 @@ class CheckoutController extends Controller
         $pids=array_keys((array) session('cart'));
         $products=Food::whereIn('id',$pids)->get();
         $delivery_addresses = DB::table('delivery_addresses')->where('user_id','=',currentUserId())->get();
+        $charge = Restaurant::select('delivery_fee')->find($products[0]->restaurant_id);
         /* get similar product */
         $similarpro=$products->pluck('category_id','category_id');
         $similarpro=Food::whereNotIn('id',$pids)->whereIn('category_id',$similarpro)->limit(12)->get();
-        return view('checkout',compact('cities','cart','products','delivery_addresses'));
+        return view('checkout',compact('cities','cart','products','delivery_addresses','charge'));
     }
     public function finalCheckout(Request $request){
         //print_r($request->all());die;
@@ -80,6 +83,7 @@ class CheckoutController extends Controller
                     DB::commit();
                     Session::forget('cart');
                     Session::forget('cal_cart');
+                    Session::forget('promo_code');
                     return redirect(route('thank_you',$order->id))->with($this->responseMessage(true, null, "data saved!"));
                 }
                
@@ -127,6 +131,42 @@ class CheckoutController extends Controller
             $cart=json_decode(base64_decode($order->cart),true);
             //dd($cart);
             return view('backend.dashboard.customer_dashboard',compact('cities','cart','order'));
+        }
+
+        public function promoCode(Request $request){
+            $type = "";
+            $msg = "";
+            $promoCode = "";
+            $promo_dis = 0;
+            if(empty($request->code))
+            {
+                $type = 2;
+                $msg = "Promo code Empty";
+            }else{
+                $promoCode = Coupon::where('code', 'like', '%' . $request->code . '%')->first();
+                if($promoCode){
+                    $type = 1;
+                    $msg = "Promo code Applied";
+                    $cart = session()->get('cart', []);
+                    $total = 0;
+                    foreach($cart as $c){
+                        $total+=$c['dis_price'] * $c['quantity'];
+                    }
+                    if($promoCode->discount_type = 1){
+                        $rate = ($promoCode->discount)/100;
+                        $dis_amt = floor($total*$rate);
+                        if($dis_amt >= $promoCode->max_discount)
+                        $dis_amt = $promoCode->max_discount;
+                    }else{
+                        $dis_amt = $promoCode->discount;
+                    }
+                    session()->put('promo_code', $dis_amt);
+                }else{
+                    $type = 2;
+                    $msg = "Invalid Promo Code";
+                }
+            }
+            return response()->json(array("msg"=> $msg,'type'=>$type), 200);
         }
 
        
