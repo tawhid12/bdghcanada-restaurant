@@ -14,6 +14,7 @@
                             <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                 <div class="list-card-image">
                                     @php
+                                    $link=route('vendor',['alias'=>$promo_rs->subdomain]); 
                                     $now = Carbon\Carbon::now();
                                     $start = Carbon\Carbon::parse($promo_rs->opening_time);
                                     $end = Carbon\Carbon::parse($promo_rs->closing_time);
@@ -33,13 +34,13 @@
                                                 class="icofont-heart"></i></a></div>
                                     <div class="member-plan position-absolute"><span
                                             class="badge badge-dark">Promoted</span></div>
-                                    <a href="{{route('restaurantDetl',$promo_rs->id)}}">
+                                    <a href="{{$link}}">
                                         <img src="{{asset('/')}}storage/app/public/images/feature_image/{{$promo_rs->feature_image}}" class="img-fluid item-img">
                                     </a>
                                 </div>
                                 <div class="p-3 position-relative">
                                     <div class="list-card-body">
-                                        <h6 class="mb-1"><a href="{{route('restaurantDetl',$promo_rs->id)}}" class="text-black">{{$promo_rs->name}}</a></h6>
+                                        <h6 class="mb-1"><a href="{{$link}}" class="text-black">{{$promo_rs->name}}</a></h6>
                                         @php
                                         $categories = DB::select(DB::raw("SELECT categories.name FROM foods JOIN restaurants on foods.restaurant_id = restaurants.id JOIN categories on foods.category_id = categories.id WHERE restaurants.id=$promo_rs->id group by categories.name LIMIT 3"));   
                                         $categories = json_decode(json_encode($categories), true);

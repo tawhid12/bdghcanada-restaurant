@@ -16,8 +16,10 @@ class CreateOrders extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('owner_id');
             $table->text('cart');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('order_status_id')->index();
             $table->foreign('order_status_id')->references('id')->on('order_statuses')->onDelete('cascade');
             $table->double('tax',8,2)->nullable()->default(0.00);

@@ -162,6 +162,14 @@
                 <span class="menu-title text-truncate" data-i18n="Customer">All Cupon</span>
               </a>
             </li>
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Orders</span>
+              <li class="nav-item {{menuActive(currentUser().'.orders.list')}}">
+                  <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.orders.index')}} @endif">
+                    <i data-feather="slack"></i>
+                    <span class="menu-title text-truncate" data-i18n="Customer">Order List</span>
+                  </a>
+              </li>
+            </li>
             <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Provience and City</span>
               <li class="nav-item {{menuActive(currentUser().'.allState')}}">
                 <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.allState')}} @endif">
@@ -177,6 +185,28 @@
               </li>
             </li>
             <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Company Profile | Settings</span>
+              <li class="nav-item {{menuActive(currentUser().'.settings.*')}}">
+                  <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.settings.index')}} @endif">
+                    <i data-feather="settings"></i>
+                    <span class="menu-title text-truncate" data-i18n="Customer">Settings</span>
+                  </a>
+              </li>
+            </li>
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Slider</span>
+              <li class="nav-item {{menuActive(currentUser().'.slider.*')}}">
+                  <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.slider.index')}} @endif">
+                    <i data-feather="sliders"></i>
+                    <span class="menu-title text-truncate" data-i18n="Customer">Sliders</span>
+                  </a>
+              </li>
+            </li>
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Advertisement</span>
+              <li class="nav-item {{menuActive(currentUser().'.advertisement.*')}}">
+                  <a class="d-flex align-items-center" href="@if(currentUser() === 'superadmin') {{route(currentUser().'.advertisement.index')}} @endif">
+                    <i data-feather="folder"></i>
+                    <span class="menu-title text-truncate" data-i18n="Customer">Advertisements</span>
+                  </a>
+              </li>
             </li>
           @endif
 
@@ -210,7 +240,14 @@
               </ul>
             </li>
 
-
+            <li class=" navigation-header"><span data-i18n="Forms &amp; Tables">Orders</span>
+              <li class="nav-item {{menuActive(currentUser().'.orders.list')}}">
+                  <a class="d-flex align-items-center" href="@if(currentUser() === 'owner') {{route(currentUser().'.orders.index')}} @endif">
+                    <i data-feather="slack"></i>
+                    <span class="menu-title text-truncate" data-i18n="Customer">Order List</span>
+                  </a>
+              </li>
+            </li>
           @endif
 
           

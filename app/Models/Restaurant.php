@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Gallery;
 use App\Models\Food;
-
+use Illuminate\Support\Str;
 class Restaurant extends Model
 {
     use HasFactory;
@@ -23,5 +23,8 @@ class Restaurant extends Model
     }
     public function foods(){
         return $this->hasMany(Food::class,'restaurant_id','id');
+    }
+    public function path(){
+        return url("/restaurant-details/".Str::slug($this->name));
     }
 }

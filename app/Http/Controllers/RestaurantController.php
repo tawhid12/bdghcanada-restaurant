@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use App\Models\State;
 use App\Models\City;
 use App\Models\Gallery;
+use App\Models\User;
 
 use App\Http\Requests\Restaurant\NewRestaurantRequest;
 use App\Http\Requests\Restaurant\UpdateRestaurantRequest;
@@ -15,6 +16,9 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Exception;
 use Storage;
+use Mail;
+
+use App\Notifications\RestaurantCreated;
 
 class RestaurantController extends Controller
 {
@@ -77,7 +81,7 @@ class RestaurantController extends Controller
             $resturant->closing_time = Carbon::parse($request->closing_time)->format('H:i:s');
             $resturant->available_for_delivery = $request->available_for_delivery?$request->available_for_delivery:0;
             $resturant->save();
-
+			$this->makeRestaurantActive($resturant);
             $image = array();
             if($file = $request->file('gallery_img')){
                 foreach($file as $file){
@@ -197,8 +201,10 @@ class RestaurantController extends Controller
     {
         try {
             $restaurant = Restaurant::find(encryptor('decrypt', $id));
-            if(!!$restaurant->delete()){
-                return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(true, null, 'Restaurant deleted'));
+            $restaurant = Restaurant::find($id);
+            $restaurant->active = 0;
+            if(!!$restaurant->save()/*!!$restaurant->delete()*/){
+                return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(true, null, 'Restaurant Deactivated'));
             }
         }catch (Exception $e) {
             return redirect(route(currentUser().'.info.index'))->with($this->responseMessage(false, 'error', 'Please try again!'));
@@ -232,5 +238,31 @@ class RestaurantController extends Controller
   
         return response()->json(['success'=>'Status change successfully.']);
     }
+	private function makeRestaurantActive(Restaurant $restaurant)
+    {
 
+		//Activate the restaurant
+        $restaurant->active = 1;
+        $restaurant->subdomain =$this->makeAlias($restaurant->name);
+        $restaurant->update();
+
+        $owner = User::find(currentUserId());
+        Mail::to('tawhid8995@gmail.com')->send();
+        //if the restaurant is first time activated
+        if ($owner->password != null) {
+    
+            //Activate the owner
+            $owner->status = 1;
+            $owner->update();
+
+            //Send email to the user/owner
+            $owner->notify(new RestaurantCreated( $restaurant, $owner));
+        }
+	}
+	public function activateRestaurant(Restaurant $restaurant)
+    {
+        $this->makeRestaurantActive($restaurant);
+
+        return redirect()->route('superadmin.allRestaurant')->withStatus(__('Restaurant successfully activated.'));
+    }
 }

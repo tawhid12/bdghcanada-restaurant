@@ -18,6 +18,7 @@ class CreateRestaurantsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
+            $table->string('subdomain')->index();
             $table->text('description')->default('')->nullable();
             $table->string('address')->nullable();
             $table->string('logo')->nullable();
@@ -26,6 +27,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('longitude');
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
+            $table->integer('views');
             $table->text('information')->nullable();
             $table->double('admin_commission',8,2)->default(0.00)->nullable();
             $table->double('delivery_fee',8,2)->default(0.00)->nullable();

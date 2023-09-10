@@ -311,15 +311,18 @@
                                 </div>
                             </div>
                         </div>
+                        @php
+                        $cart = session()->get('cart');
+                        $restaurant_id = array_column($cart, 'restaurant_id');
+                        $restaurant = \App\Models\Restaurant::find($restaurant_id[0]);
+                        @endphp
+                        <input type="hidden" name="owner_id" value="{{$restaurant->user_id}}">
                         </form>
                     </div>
                 </div>
             </div>
-            @php
-            $cart = session()->get('cart');
-            $restaurant_id = array_column($cart, 'restaurant_id');
-            $restaurant = \App\Models\Restaurant::find($restaurant_id[0]);
-            @endphp
+
+           
             <div class="col-md-4">
                 <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
                     <div class="d-flex mb-4 osahan-cart-item-profile">

@@ -9,7 +9,7 @@ use App\Models\City;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Payment;
-
+use App\Events\CustomerHasNewOrder;
 use DB;
 use Session;
 class CheckoutController extends Controller
@@ -18,6 +18,9 @@ class CheckoutController extends Controller
     public function index(Request $request){
         $cities = City::all();
         $cart = session()->get('cart', []);
+        if(empty($cart)){
+            return redirect(route('front.cart'))->with($this->responseMessage(false, null, "You have no product in cart."));
+        }
         $pids=array_keys((array) session('cart'));
         $products=Food::whereIn('id',$pids)->get();
         $delivery_addresses = DB::table('delivery_addresses')->where('user_id','=',currentUserId())->get();
@@ -77,6 +80,7 @@ class CheckoutController extends Controller
                 $order->order_status_id = 1;
                 $order->delivery_fee = 50;
                 $order->delivery_address_id = $request->delivery_address_id;
+                $order->owner_id = $request->owner_id;
                 $order->payment_id = DB::getPdo()->lastInsertId();
 
                 if($order->save()){
@@ -84,6 +88,8 @@ class CheckoutController extends Controller
                     Session::forget('cart');
                     Session::forget('cal_cart');
                     Session::forget('promo_code');
+                    /*Order Place Event */
+                    event(new CustomerHasNewOrder($order));
                     return redirect(route('thank_you',$order->id))->with($this->responseMessage(true, null, "data saved!"));
                 }
                

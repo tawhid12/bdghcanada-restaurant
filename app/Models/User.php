@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Notifications\Notifiable;
+
 use App\Models\Role;
 use App\Models\UserDetail;
 
 class User extends Model
 {
+    use Notifiable;
+    
     public function role(){
         return $this->belongsTo(Role::class, 'roleId');
     }

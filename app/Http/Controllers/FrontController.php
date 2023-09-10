@@ -7,6 +7,7 @@ use App\Models\Restaurant;
 use App\Models\State;
 use App\Models\City;
 use App\Models\Food;
+use App\Models\Order;
 use DB;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,20 @@ class FrontController extends Controller
         ->groupBy('states.name')
         ->get();*/
         return view('welcome',compact('states','cities','promoted_restaurant','popular_food_items'));
+    }
+    public function restaurant($alias){
+        $restaurant = Restaurant::where('subdomain', $alias)->first();
+        if ($restaurant->active == 1) {
+            if(isset($_GET['pay'])){
+                //This is a payment link
+                $order=Order::findOrFail($_GET['pay']);
+                if($order->restorant_id==$restaurant->id){
+                    return redirect($order->payment_link);
+                }
+            }
+
+            $restaurant->increment('views');
+        }
     }
     public function search(Request $request){
         $state_id = $request->state_id;

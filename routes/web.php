@@ -18,7 +18,10 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DeliveryAddressController;
 use App\Http\Controllers\CouponController;
-
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,6 +73,7 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         /*====Restaurant Gallery==*/
         //Route::resource('/gallery',GalleryController::class,['as' => 'superadmin']);
         Route::get('/all/restaurant',[RestaurantController::class,'allRestaurant'])->name('superadmin.allRestaurant');
+        Route::get('/restaurant/{restaurant}/activate',[RestaurantController::class,'activateRestaurant'])->name('superadmin.restaurant.activate');
         Route::get('/changeresfeaturedStatus', [RestaurantController::class,'changerestaurantFeatured'])->name('superadmin.changerestaurantFeatured');
         Route::get('/changerespopularStatus', [RestaurantController::class,'changerestaurantPopular'])->name('superadmin.changerestaurantPopular');
 
@@ -78,10 +82,18 @@ Route::group(['middleware' => 'isSuperAdmin'], function(){
         Route::get('/changefeaturedStatus', [FoodController::class,'changefoodFeatured'])->name('superadmin.changefoodFeatured');
         Route::get('/changepopularStatus', [FoodController::class,'changefoodPopular'])->name('superadmin.changefoodPopular');
 
+        /*===Order===*/
+        Route::resource('/orders',OrderController::class,['as' => 'superadmin']);
+
         /*===Cupon===*/
         Route::resource('/coupon',CouponController::class,['as' => 'superadmin']);
 
-
+        /*===Settings===*/
+        Route::resource('/settings',SettingController::class,['as' => 'superadmin']);
+        /*===Slider===*/
+        Route::resource('/slider',SliderController::class,['as' => 'superadmin']);
+        /*===Advertisement===*/
+        Route::resource('/advertisement',AdvertisementController::class,['as' => 'superadmin']);
 
     });
    
@@ -138,6 +150,9 @@ Route::group(['middleware' => 'isRestaurant'], function(){
         /*====Restaurant Gallery==*/
         Route::resource('/gallery',GalleryController::class,['as' => 'owner']);
 
+        /*===Order===*/
+        Route::resource('/orders',OrderController::class,['as' => 'owner']);
+
     });
     
    
@@ -179,7 +194,7 @@ Route::group(['middleware' => 'isCustomer'], function(){
         Route::post('/profile', [UserController::class,'storeProfile'])->name('customer.storeProfile');
         
        /*Checkout Page Redirect*/
-        Route::get('/cart/{page?}', [CheckoutController::class,'index'])->name('cart');
+        Route::get('/cart', [CheckoutController::class,'index'])->name('cart');
         /*Final Checkout*/
         Route::post('/final_checkout', [CheckoutController::class,'finalCheckout'])->name('finalCheckout');
         /*Final Checkout*/
@@ -199,6 +214,7 @@ Route::group(['middleware' => 'isCustomer'], function(){
 
     
 });
+Route::get('/restaurant/{alias}', [FrontController::class,'restaurant'])->name('vendor');
 Route::get('/', [FrontController::class,'index'])->name('home');
 Route::get('/restaurant-search', [FrontController::class,'search'])->name('restaurant.search');
 Route::get('/restaurant-listing/near', [RestraurantListingController::class,'nearestRestaurant'])->name('nearestRestaurant');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Food;
 use App\Models\Restaurant;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use View;
 class CartController extends Controller
@@ -17,11 +18,13 @@ class CartController extends Controller
     public function cartView(){
         $cart = session()->get('cart', []);
         $pids=array_keys((array) session('cart'));
-       // $gs=GeneralSetting::first(); here need to pass deliver charge and other information reference sharif bhai
+        $settings=Setting::select('gst','hst')->first();
         $products=Food::whereIn('id',$pids);
+        $similarpro=$products->pluck('category_id','category_id');
+        $similarpro=Food::whereNotIn('id',$pids)->whereIn('category_id',$similarpro)->limit(12)->get();
         /* get cart product */
         $products= $products->get();
-        return view('frontend.cart',compact('products','cart','similarpro','gs'));
+        return view('cart',compact('products','cart','similarpro','settings'));
     }
     public function index()
     {
