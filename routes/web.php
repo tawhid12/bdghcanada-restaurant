@@ -156,7 +156,7 @@ Route::group(['middleware' => 'isRestaurant'], function(){
     });
     
    
-    Route::prefix('user')->group(function () {       
+    Route::prefix('owner')->group(function () {       
         Route::post('/upload-image',  [UserController::class,'upload']);
         Route::post('/changePass',  [UserController::class,'changePass'])->name('owner.changePass');
         Route::post('/changePer',  [UserController::class,'changePer'])->name('owner.changePer');
